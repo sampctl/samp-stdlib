@@ -378,8 +378,8 @@ NATIVE__ SetPlayerInterior(playerid, interiorid) \
 /// <seealso name="GetPlayerVirtualWorld"/>
 /// <remarks>Always returns <b><c>0</c></b> for NPCs.</remarks>
 /// <returns>The interior ID the player is currently in.</returns>
-NATIVE__ GetPlayerInterior(playerid); \
-    = Player_GetInterior(Player:playerid)
+NATIVE__ GetPlayerInterior(playerid) \
+    = Player_GetInterior(Player:playerid);
 
 /// <summary>Set the virtual world of a player. They can only see other players or vehicles that are in that same world.</summary>
 /// <param name="playerid">The ID of the player you want to set the virtual world of</param>
@@ -1041,7 +1041,7 @@ NATIVE__ GetPlayerVelocity(playerid, &Float:X, &Float:Y, &Float:Z) \
 ///   </ul>
 /// </remarks>
 NATIVE__ PlayCrimeReportForPlayer(playerid, suspectid, crime) \
-	Player_PlayCrimeReport(Player:playerid, Player:suspectid, crime);
+	= Player_PlayCrimeReport(Player:playerid, Player:suspectid, crime);
 
 /// <summary>Play an 'audio stream' for a player. Normal audio files also work (e.g. MP3).</summary>
 /// <param name="playerid">The ID of the player to play the audio for</param>
@@ -1059,7 +1059,7 @@ NATIVE__ PlayCrimeReportForPlayer(playerid, suspectid, crime) \
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.
 /// </returns>
 NATIVE__ PlayAudioStreamForPlayer(playerid, const url[], Float:posX = 0.0, Float:posY = 0.0, Float:posZ = 0.0, Float:distance = 50.0, usepos = 0) \
-	Player_PlayAudioStream(Player:playerid, const url[], Float:posX = 0.0, Float:posY = 0.0, Float:posZ = 0.0, Float:audibleRadius = 50.0, bool:usepos = false);
+	= Player_PlayAudioStream(Player:playerid, const url[], Float:posX = 0.0, Float:posY = 0.0, Float:posZ = 0.0, Float:audibleRadius = 50.0, bool:usepos = false);
 
 /// <summary>Stops the current audio stream for a player.</summary>
 /// <param name="playerid">The player you want to stop the audio stream for</param>
@@ -1067,7 +1067,7 @@ NATIVE__ PlayAudioStreamForPlayer(playerid, const url[], Float:posX = 0.0, Float
 /// <seealso name="PlayerPlaySound"/>
 /// <remarks>This function was added in <b>SA-MP 0.3d</b> and will not work in earlier versions!</remarks>
 NATIVE__ StopAudioStreamForPlayer(playerid) \
-	Player_StopAudioStream(Player:playerid);
+	= Player_StopAudioStream(Player:playerid);
 
 /// <summary>Loads or unloads an interior script for a player (for example the ammunation menu).</summary>
 /// <param name="playerid">The ID of the player to load the interior script for</param>
@@ -1090,7 +1090,7 @@ NATIVE__ StopAudioStreamForPlayer(playerid) \
 ///   </ul>
 /// </remarks>
 NATIVE__ SetPlayerShopName(playerid, const shopname[]) \
-	Player_SetShopName(Player:playerid, const shopname[]);
+	= Player_SetShopName(Player:playerid, const shopname[]);
 
 /// <summary>Set the skill level of a certain weapon type for a player.</summary>
 /// <param name="playerid">The ID of the player to set the weapon skill of</param>
@@ -1116,7 +1116,7 @@ NATIVE__ SetPlayerShopName(playerid, const shopname[]) \
 ///   </ul>
 /// </remarks>
 NATIVE__ SetPlayerSkillLevel(playerid, {WeaponSkill, _}:skill, level) \
-	Player_SetSkillLevel(Player:playerid, WeaponSkill:skill, level);
+	= Player_SetSkillLevel(Player:playerid, WeaponSkill:skill, level);
 
 NEW_NATIVE__ Player_GetSkillLevel(Player:playerid, {WeaponSkill, _}:skill);
 
@@ -1127,14 +1127,14 @@ NEW_NATIVE__ Player_GetSkillLevel(Player:playerid, {WeaponSkill, _}:skill);
 /// <remarks>This function was added in <b>SA-MP 0.3a</b> and will not work in earlier versions!</remarks>
 /// <returns>The ID of the vehicle that the player is surfing. If they are not surfing a vehicle or the vehicle they are surfing has no driver, <b><c>INVALID_VEHICLE_ID</c></b>. If the player specified is not connected, <b><c>INVALID_VEHICLE_ID</c></b> also.</returns>
 NATIVE__ GetPlayerSurfingVehicleID(playerid) \
-	Vehicle:Player_GetSurfingVehicle(Player:playerid);
+	= Vehicle:Player_GetSurfingVehicle(Player:playerid);
 
 /// <summary>Returns the ID of the object the player is surfing on.</summary>
 /// <param name="playerid">The ID of the player surfing the object</param>
 /// <remarks>This function was added in <b>SA-MP 0.3c R3</b> and will not work in earlier versions!</remarks>
 /// <returns>The ID of the <b>moving</b> object the player is surfing. If the player isn't surfing a <b>moving</b> object, it will return <b><c>INVALID_OBJECT_ID</c></b>.</returns>
 NATIVE__ GetPlayerSurfingObjectID(playerid) \
-	Player_GetSurfingObject(Player:playerid);
+	= Player_GetSurfingObject(Player:playerid);
 
 /// <summary>Removes a standard San Andreas model for a single player within a specified range.</summary>
 /// <param name="playerid">The ID of the player to remove the objects for</param>
@@ -1150,7 +1150,7 @@ NATIVE__ GetPlayerSurfingObjectID(playerid) \
 /// <remarks>When removing the same object for a player, they will crash. Commonly, players crash when reconnecting to the server because the server removes buildings on <a href="#OnPlayerConnect">OnPlayerConnect</a>. </remarks>
 /// <remarks>In <b>SA-MP 0.3.7</b> you can use <b><c>-1</c></b> for the modelid to remove all objects within the specified radius.</remarks>
 NATIVE__ RemoveBuildingForPlayer(playerid, modelid, Float:fX, Float:fY, Float:fZ, Float:fRadius) \
-	Player_RemoveBuilding(Player:playerid, modelid, Float:searchCentreX, Float:searchCentreY, Float:searchCentreZ, Float:searchRadius);
+	= Player_RemoveBuilding(Player:playerid, modelid, Float:searchCentreX, Float:searchCentreY, Float:searchCentreZ, Float:searchRadius);
 
 /// <summary>Retrieves the start and end (hit) position of the last bullet a player fired.</summary>
 /// <param name="playerid">The ID of the player to get the last bullet shot information of</param>
@@ -1172,7 +1172,7 @@ NATIVE__ RemoveBuildingForPlayer(playerid, modelid, Float:fX, Float:fY, Float:fZ
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.<p/>
 /// </returns>
 NATIVE__ GetPlayerLastShotVectors(playerid, &Float:fOriginX, &Float:fOriginY, &Float:fOriginZ, &Float:fHitPosX, &Float:fHitPosY, &Float:fHitPosZ) \
-	Player_GetLastShotVectors(Player:playerid, &Float:fOriginX, &Float:fOriginY, &Float:fOriginZ, &Float:fHitPosX, &Float:fHitPosY, &Float:fHitPosZ);
+	= Player_GetLastShotVectors(Player:playerid, &Float:fOriginX, &Float:fOriginY, &Float:fOriginZ, &Float:fHitPosX, &Float:fHitPosY, &Float:fHitPosZ);
 
 // Attached to bone objects
 #if MAX_PLAYER_ATTACHED_OBJECTS < 1 || MAX_PLAYER_ATTACHED_OBJECTS > 10
@@ -1226,7 +1226,7 @@ NATIVE__ GetPlayerLastShotVectors(playerid, &Float:fOriginX, &Float:fOriginY, &F
 /// </remarks>
 /// <returns><b><c>1</c></b> on success, <b><c>0</c></b> on failure.</returns>
 NATIVE__ SetPlayerAttachedObject(playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0, materialcolor1 = 0, materialcolor2 = 0) \
-	Player_SetAttachedObject(Player:playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0, materialcolor1 = 0, materialcolor2 = 0);
+	= Player_SetAttachedObject(Player:playerid, slot, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0, materialcolor1 = 0, materialcolor2 = 0);
 
 /// <summary>Remove an attached object from a player.</summary>
 /// <param name="playerid">The ID of the player to remove the object from</param>
@@ -1236,7 +1236,7 @@ NATIVE__ SetPlayerAttachedObject(playerid, index, modelid, bone, Float:fOffsetX 
 /// <remarks>This function was added in <b>SA-MP 0.3c</b> and will not work in earlier versions!</remarks>
 /// <returns><b><c>1</c></b> on success, <b><c>0</c></b> on failure.</returns>
 NATIVE__ RemovePlayerAttachedObject(playerid, index) \
-	Player_RemoveAttachedObject(Player:playerid, index);
+	= Player_RemoveAttachedObject(Player:playerid, slot);
 
 /// <summary>Check if a player has an object attached in the specified index (slot).</summary>
 /// <param name="playerid">The ID of the player to check</param>
@@ -1246,7 +1246,7 @@ NATIVE__ RemovePlayerAttachedObject(playerid, index) \
 /// <remarks>This function was added in <b>SA-MP 0.3c</b> and will not work in earlier versions!</remarks>
 /// <returns><b><c>1</c></b> if used, <b><c>0</c></b> if not.</returns>
 NATIVE__ IsPlayerAttachedObjectSlotUsed(playerid, index) \
-	Player_IsAttachedObjectSlotUsed(Player:playerid, index);
+	= Player_GetAttachedObject(Player:playerid, slot);
 
 /// <summary>Enter edition mode for an attached object.</summary>
 /// <param name="playerid">The ID of the player to enter in to edition mode</param>
@@ -1270,7 +1270,7 @@ NATIVE__ IsPlayerAttachedObjectSlotUsed(playerid, index) \
 /// <remarks>Players will be able to scale objects up to a very large or negative value size. Limits should be put in place using <a href="#OnPlayerEditAttachedObject">OnPlayerEditAttachedObject</a> to abort the edit.</remarks>
 /// <returns><b><c>1</c></b> on success and <b><c>0</c></b> on failure.</returns>
 NATIVE__ EditAttachedObject(playerid, index) \
-	Player_EditAttachedObject(Player:playerid, index);
+	= Player_EditAttachedObject(Player:playerid, slot);
 
 // Per-player variable system (PVars)
 
