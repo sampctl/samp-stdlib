@@ -155,25 +155,30 @@
 	#if defined OPENMP_QUIET
 		#define OLD_NATIVE__%0(%1) _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$;native%0(%1);stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
 	#elseif defined OPENMP_COMPAT
-		#define OLD_NATIVE__%0(%1) native%0(%1);static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) native%0(%1);static stock _NATIVE_NO_TAG__:_@%0()NATIVE__END$
 	#else
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0()NATIVE__END$
 	#endif
-	#define NEW_NATIVE__%2(%3) stock%2(%3)
+	#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N1:_NATIVE__N3:0]);stock%2(%3)NATIVE__END$
 #else
 	#if defined OPENMP_QUIET
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$;stock %0(%1)
+		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0()NATIVE__END$;stock %0(%1)
 	#elseif defined OPENMP_COMPAT
 		#define OLD_NATIVE__%0(%1) stock%0(%1)
 	#else
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0()NATIVE__END$
 	#endif
 	#if defined OPENMP_TESTS
-		#define NEW_NATIVE__%2(%3) native%2(%3);_OPENMP_TESTS(%2(%3))static stock _NATIVE_NO_TAG__:_@%2(%3)NATIVE__END$
+		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);_OPENMP_TESTS(%2(%3))static stock _NATIVE_NO_TAG__:_@%2()NATIVE__END$
 	#else
-		#define NEW_NATIVE__%2(%3) native%2(%3);static stock _NATIVE_NO_TAG__:_@%2(%3)NATIVE__END$
+		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);static stock _NATIVE_NO_TAG__:_@%2()NATIVE__END$
 	#endif
 #endif
+
+#define _NATIVE__N0:_NATIVE__N2:0]);%0(%1)%2$%3=%4; 0]);%0(%1)=%4%2$;
+#define _NATIVE__N1:_NATIVE__N3:0]);%0(%1)%2$%3=%4; 0]);%0(%1)%2$;
+#define _NATIVE__N2:0]);%0(%1)%2$%3=%4\10; 0]);%0(%1)=%4%2$
+#define _NATIVE__N3:0]);%0(%1)%2$%3=%4\10; 0]);%0(%1)%2$
 
 #if defined OPENMP_TESTS
 	#include "openmp/internal/omp-code-parse"
