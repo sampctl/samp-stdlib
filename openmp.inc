@@ -38,7 +38,7 @@
 //#include "openmp-core.inc"
 //#include "openmp-players.inc"
 //#include "openmp-vehicles.inc"
-//#include "openmp-objects.inc"
+#include "openmp-objects.inc"
 //#include "openmp-actors.inc"
 //#include "openmp-visual.inc"
 //#include "openmp-turfs.inc"

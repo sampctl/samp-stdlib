@@ -1667,13 +1667,13 @@ NATIVE__ SetPlayerSpecialAction(playerid, actionid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.
 /// </returns>
-NEW_NATIVE__ bool:Player_ToggleVehiclesSolid(Player:playerid, bool:solid)
+NEW_NATIVE__ bool:Player_ToggleVehicleCollision(Player:playerid, bool:solid)
 	return !!DisableRemoteVehicleCollisions(playerid, !solid);
 
 OLD_NATIVE__ DisableRemoteVehicleCollisions(playerid, nonSolid)
-	return Player_ToggleVehiclesSolid(Player:playerid, !nonSolid);
+	return Player_ToggleVehicleCollision(Player:playerid, !nonSolid);
 
-NEW_NATIVE__ bool:Player_GetVehiclesSolid(Player:playerid);
+NEW_NATIVE__ bool:Player_GetVehicleCollision(Player:playerid);
 
 // Player world/map related
 
@@ -2009,22 +2009,6 @@ NATIVE__ InterpolateCameraPos(playerid, Float:fromX, Float:fromY, Float:fromZ, F
 NATIVE__ InterpolateCameraLookAt(playerid, Float:fromX, Float:fromY, Float:fromZ, Float:toX, Float:toY, Float:toZ, time, cut = CAMERA_CUT) \
 	= bool:Player_MoveFocus(Player:playerid, Float:fromX, Float:fromY, Float:fromZ, Float:toX, Float:toY, Float:toZ, time, CameraMovement:movementType = CAMERA_MOVEMENT_CUT);
 
-/// <summary>You can use this function to attach the player camera to objects.</summary>
-/// <param name="playerid">The ID of the player which will have your camera attached on object</param>
-/// <param name="objectid">The object id which you want to attach the player camera</param>
-/// <seealso name="Player_AttachCameraToObject"/>
-/// <remarks>You need to create the object first, before attempting to attach a player camera for that.</remarks>
-OLD_NATIVE__ AttachCameraToObject(playerid, objectid);
-
-/// <summary>Attaches a player's camera to a player-object. The player is able to move their camera while it is attached to an object. Can be used with MovePlayerObject and AttachPlayerObjectToVehicle.</summary>
-/// <param name="playerid">The ID of the player which will have their camera attached to a player-object</param>
-/// <param name="playerobjectid">The ID of the player-object to which the player's camera will be attached</param>
-/// <seealso name="AttachCameraToObject"/>
-/// <seealso name="Player_SetCameraPosition"/>
-/// <seealso name="Player_SetCameraLookAt"/>
-/// <remarks>The player-object must be created before attempting to attach the player's camera to it.</remarks>
-OLD_NATIVE__ AttachCameraToPlayerObject(Player:playerid, playerobjectid);
-
 // Player conditionals
 
 /// <summary>Checks if a player is connected (if an ID is taken by a connected player).</summary>
@@ -2162,7 +2146,6 @@ NATIVE__ StopRecordingPlayerData(playerid) \
 	= bool:Player_StopRecordingData(Player:playerid);
 
 // Explosion
-
 /// <summary>Creates an explosion that is only visible to a single player. This can be used to isolate explosions from other players or to make them only appear in specific <a href="http://wiki.sa-mp.com/wiki/SetPlayerVirtualWorld">virtual worlds</a>.</summary>
 /// <param name="playerid">The ID of the player to create the explosion for</param>
 /// <param name="x">The X coordinate of the explosion</param>
@@ -2185,4 +2168,47 @@ NATIVE__ CreateExplosionForPlayer(playerid, Float:x, Float:y, Float:z, type, Flo
 /// <param name="byteCount">The number of bytes to check</param>
 NATIVE__ SendClientCheck(playerid, type, memAddr, memOffset, byteCount) \
 	= bool:Player_SendClientCheck(Player:playerid, CheckType:type, memAddr, memOffset, byteCount);
+
+/// <summary>Allows a player to edit an object (position and rotation) using their mouse on a GUI (Graphical User Interface).</summary>
+/// <param name="playerid">The ID of the player that should edit the object</param>
+/// <param name="objectid">The ID of the object to be edited by the player</param>
+/// <seealso name="EditPlayerObject"/>
+/// <seealso name="EditAttachedObject"/>
+/// <seealso name="SelectObject"/>
+/// <seealso name="CancelEdit"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+/// <remarks>You can move the camera while editing by pressing and holding the <b>spacebar</b> (or <b>W</b> in vehicle) and moving your mouse.</remarks>
+/// <returns>
+///   <b><c>1</c></b>: The function executed successfully. Success is reported when a non-existent object is specified, but nothing will happen.<p/>
+///   <b><c>0</c></b>: The function failed to execute. The player is not connected.
+/// </returns>
+NEW_NATIVE__ bool:Player_EditObject(Player:playerid, Object:objectid);
+
+/// <summary>Display the cursor and allow the player to select an object. <a href="#OnPlayerSelectObject">OnPlayerSelectObject</a> is called when the player selects an object.</summary>
+/// <param name="playerid">The ID of the player that should be able to select the object</param>
+/// <seealso name="EditObject"/>
+/// <seealso name="EditPlayerObject"/>
+/// <seealso name="EditAttachedObject"/>
+/// <seealso name="CancelEdit"/>
+/// <seealso name="OnPlayerSelectObject"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+NEW_NATIVE__ bool:Player_SelectObject(Player:playerid)
+	return !!SelectObject(_:playerid);
+
+/// <summary>Cancel object edition mode for a player.</summary>
+/// <param name="playerid">The ID of the player to cancel edition for</param>
+/// <seealso name="SelectObject"/>
+/// <seealso name="EditObject"/>
+/// <seealso name="EditPlayerObject"/>
+/// <seealso name="EditAttachedObject"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+NEW_NATIVE__ bool:Player_CancelEdit(Player:playerid)
+	return !!CancelEdit(_:playerid);
+
+/// <summary>You can use this function to attach the player camera to objects.</summary>
+/// <param name="playerid">The ID of the player which will have your camera attached on object</param>
+/// <param name="objectid">The object id which you want to attach the player camera</param>
+/// <seealso name="Player_AttachCameraToObject"/>
+/// <remarks>You need to create the object first, before attempting to attach a player camera for that.</remarks>
+NEW_NATIVE__ Player_AttachCameraToObject(Player:playerid, Object:objectid);
 
