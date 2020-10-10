@@ -4,9 +4,10 @@
  *
  */
 
-#if defined _INC_a_vehicles
+#if defined _inc_omp_vehicles
 	#endinput
 #endif
+#define _inc_omp_vehicles
 #define _INC_a_vehicles
 #define _vehicles_included
 
@@ -18,34 +19,99 @@
 // Defines
 // --------------------------------------------------
 
-#define CARMODTYPE_SPOILER                     (0)
-#define CARMODTYPE_HOOD                        (1)
-#define CARMODTYPE_ROOF                        (2)
-#define CARMODTYPE_SIDESKIRT                   (3)
-#define CARMODTYPE_LAMPS                       (4)
-#define CARMODTYPE_NITRO                       (5)
-#define CARMODTYPE_EXHAUST                     (6)
-#define CARMODTYPE_WHEELS                      (7)
-#define CARMODTYPE_STEREO                      (8)
-#define CARMODTYPE_HYDRAULICS                  (9)
-#define CARMODTYPE_FRONT_BUMPER                (10)
-#define CARMODTYPE_REAR_BUMPER                 (11)
-#define CARMODTYPE_VENT_RIGHT                  (12)
-#define CARMODTYPE_VENT_LEFT                   (13)
+_OPENMP_TAG(Vehicle);
 
-#define VEHICLE_PARAMS_UNSET                   (-1)
-#define VEHICLE_PARAMS_OFF                     (0)
-#define VEHICLE_PARAMS_ON                      (1)
+const TAG__<Vehicle>:MAX_VEHICLES = 2000;
 
-#define VEHICLE_MODEL_INFO_SIZE                (1)
-#define VEHICLE_MODEL_INFO_FRONTSEAT           (2)
-#define VEHICLE_MODEL_INFO_REARSEAT            (3)
-#define VEHICLE_MODEL_INFO_PETROLCAP           (4)
-#define VEHICLE_MODEL_INFO_WHEELSFRONT         (5)
-#define VEHICLE_MODEL_INFO_WHEELSREAR          (6)
-#define VEHICLE_MODEL_INFO_WHEELSMID           (7)
-#define VEHICLE_MODEL_INFO_FRONT_BUMPER_Z      (8)
-#define VEHICLE_MODEL_INFO_REAR_BUMPER_Z       (9)
+const TAG__<Vehicle>:INVALID_VEHICLE_ID = 0xFFFF;
+
+#define VEHICLE_COMPONENT_TYPE_SPOILER      VehicleComponentType:0
+#define VEHICLE_COMPONENT_TYPE_HOOD         VehicleComponentType:1
+#define VEHICLE_COMPONENT_TYPE_ROOF         VehicleComponentType:2
+#define VEHICLE_COMPONENT_TYPE_SIDESKIRT    VehicleComponentType:3
+#define VEHICLE_COMPONENT_TYPE_LAMPS        VehicleComponentType:4
+#define VEHICLE_COMPONENT_TYPE_NITRO        VehicleComponentType:5
+#define VEHICLE_COMPONENT_TYPE_EXHAUST      VehicleComponentType:6
+#define VEHICLE_COMPONENT_TYPE_WHEELS       VehicleComponentType:7
+#define VEHICLE_COMPONENT_TYPE_STEREO       VehicleComponentType:8
+#define VEHICLE_COMPONENT_TYPE_HYDRAULICS   VehicleComponentType:9
+#define VEHICLE_COMPONENT_TYPE_FRONT_BUMPER VehicleComponentType 10
+#define VEHICLE_COMPONENT_TYPE_REAR_BUMPER  VehicleComponentType:11
+#define VEHICLE_COMPONENT_TYPE_VENT_RIGHT   VehicleComponentType:12
+#define VEHICLE_COMPONENT_TYPE_VENT_LEFT    VehicleComponentType:13
+
+enum VehicleParam
+{
+    VEHICLE_PARAM_ENGINE,
+    VEHICLE_PARAM_LIGHTS,
+    VEHICLE_PARAM_ALARM,
+    VEHICLE_PARAM_DOORS,
+    VEHICLE_PARAM_BONNET,
+    VEHICLE_PARAM_BOOT,
+    VEHICLE_PARAM_OBJECTIVE,
+    VEHICLE_PARAM_SIREN
+};
+
+enum VehicleParamValue
+{
+    VEHICLE_PARAM_UNSET = -1,
+    VEHICLE_PARAM_OFF   = 0,
+    VEHICLE_PARAM_ON    = 1
+};
+
+enum VehicleSeat
+{
+    VEHICLE_SEAT_INVALID = -1,
+    VEHICLE_SEAT_FRONT_LEFT,
+    VEHICLE_SEAT_FRONT_RIGHT,
+    VEHICLE_SEAT_BACK_LEFT,
+    VEHICLE_SEAT_BACK_RIGHT
+};
+
+#if defined OPENMP_COMPAT
+    enum 
+    {
+        CARMODTYPE_SPOILER,
+        CARMODTYPE_HOOD,
+        CARMODTYPE_ROOF,
+        CARMODTYPE_SIDESKIRT,
+        CARMODTYPE_LAMPS,
+        CARMODTYPE_NITRO,
+        CARMODTYPE_EXHAUST,
+        CARMODTYPE_WHEELS,
+        CARMODTYPE_STEREO,
+        CARMODTYPE_HYDRAULICS,
+        CARMODTYPE_FRONT_BUMPER,
+        CARMODTYPE_REAR_BUMPER,
+        CARMODTYPE_VENT_RIGHT,
+        CARMODTYPE_VENT_LEFT
+    };
+
+    enum
+    {
+        VEHICLE_PARAMS_UNSET    = -1,
+        VEHICLE_PARAMS_OFF      = 0,
+        VEHICLE_PARAMS_ON       = 1
+    };
+#endif
+
+#define VEHICLE_MODEL_INFO_SIZE				VehicleModelInfo:1
+#define VEHICLE_MODEL_INFO_FRONTSEAT		VehicleModelInfo:2
+#define VEHICLE_MODEL_INFO_REARSEAT			VehicleModelInfo:3
+#define VEHICLE_MODEL_INFO_PETROLCAP		VehicleModelInfo:4
+#define VEHICLE_MODEL_INFO_WHEELSFRONT		VehicleModelInfo:5
+#define VEHICLE_MODEL_INFO_WHEELSREAR		VehicleModelInfo:6
+#define VEHICLE_MODEL_INFO_WHEELSMID		VehicleModelInfo:7
+#define VEHICLE_MODEL_INFO_FRONT_BUMPER_Z	VehicleModelInfo:8
+#define VEHICLE_MODEL_INFO_REAR_BUMPER_Z	VehicleModelInfo:9
+
+enum VehicleDamageStatus
+{
+    VEHICLE_DAMAGE_STATUS_PANELS,
+    VEHICLE_DAMAGE_STATUS_DOORS,
+    VEHICLE_DAMAGE_STATUS_LIGHTS,
+    VEHICLE_DAMAGE_STATUS_TIRES
+}
 
 // Vehicle
 

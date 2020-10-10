@@ -253,6 +253,65 @@ enum CameraMode
 	CAMERA_MODE_CHASE_PILOT = 64,
 }
 
+enum CheckType
+{
+	// Returns 32 flags of entity in CPhysical (if player is in vehicle, it sends data related to
+	// vehicle, if player is on foot, well.. it's player).
+	CHECK_TYPE_PHYSICAL_FLAGS = 2,
+	// Checksum of size bytes from arg + offset address (GTA memory) and returns it into response
+	// argument, and arg should be within GTA memory boundaries.
+	CHECK_TYPE_HASH_GTA_MEMORY = 5,
+	// Checksum of size bytes from arg + offset address (SAMP memory) and returns it into response
+	// argument, and arg should be within GTA memory boundaries (0x0 - 0xC3500).
+	CHECK_TYPE_HASH_SAMP_MEMORY = 69,
+	// Checksum of given model's CModelInfo (data in CModelInfo class).
+	CHECK_TYPE_HASH_MODEL_INFO = 70,
+	// Checksum of given model's ColModel (data in CColModel class).
+	CHECK_TYPE_HASH_COL_MODEL = 71,
+	// Uptime of player's computer.
+	CHECK_TYPE_UPTIME = 72,
+}
+
+enum PhysicalFlags (<<= 1)
+{
+	// 0-7
+	_PHYSICAL_FLAG_UNK_1 = 1,
+	PHYSICAL_FLAG_GRAVITY,
+	PHYSICAL_FLAG_IMPACT,
+	PHYSICAL_FLAG_COLLISIONS,
+	PHYSICAL_FLAG_MOMENTUM,
+	PHYSICAL_FLAG_NO_MASS,
+	PHYSICAL_FLAG_INFINITE_MASS,
+	PHYSICAL_FLAG_Z_DISABLED,
+	// 8-15
+	PHYSICAL_FLAG_IN_WATER,
+	PHYSICAL_FLAG_ON_GROUND,
+	PHYSICAL_FLAG_BROKEN,
+	_PHYSICAL_FLAG_UNK_2,
+	_PHYSICAL_FLAG_UNK_3,
+	PHYSICAL_FLAG_NO_SPEED,
+	_PHYSICAL_FLAG_UNK_4,
+	_PHYSICAL_FLAG_UNK_5,
+	// 16-23
+	_PHYSICAL_FLAG_UNK_6,
+	_PHYSICAL_FLAG_UNK_7,
+	PHYSICAL_FLAG_BULLET_PROOF,
+	PHYSICAL_FLAG_FIRE_PROOF,
+	PHYSICAL_FLAG_COLLISION_PROOF,
+	PHYSICAL_FLAG_MELEE_PROOF,
+	PHYSICAL_FLAG_INVULNERABLE,
+	PHYSICAL_FLAG_EXPLOSION_PROOF,
+	// 24-31
+	_PHYSICAL_FLAG_UNK_8,
+	PHYSICAL_FLAG_ATTACHED,
+	_PHYSICAL_FLAG_UNK_9,
+	PHYSICAL_FLAG_ON_WATER,
+	PHYSICAL_FLAG_COLLIDABLE,
+	PHYSICAL_FLAG_DESTROYED,
+	_PHYSICAL_FLAG_UNK_10,
+	_PHYSICAL_FLAG_UNK_11,
+}
+
 // Player
 
 /// <summary>This function can be used to change the spawn information of a specific player. It allows you to automatically set someone's spawn weapons, their team, skin and spawn position, normally used in case of minigames or automatic-spawn systems. This function is more crash-safe then using <a href="#SetPlayerSkin">SetPlayerSkin</a> in <a href="#OnPlayerSpawn">OnPlayerSpawn</a> and/or <a href="#OnPlayerRequestClass">OnPlayerRequestClass</a>, even though this has been fixed in 0.2.</summary>
@@ -262,18 +321,34 @@ enum CameraMode
 /// <param name="x">The X-coordinate of the player's spawn position</param>
 /// <param name="y">The Y-coordinate of the player's spawn position</param>
 /// <param name="z">The Z-coordinate of the player's spawn position</param>
-/// <param name="rotation">The direction in which the player needs to be facing after spawning</param>
+/// <param name="angle">The direction in which the player needs to be facing after spawning</param>
 /// <param name="weapon1">The first spawn-<a href="http://wiki.sa-mp.com/wiki/Weapons">weapon</a> for the player</param>
-/// <param name="weapon1_ammo">The amount of ammunition for the primary spawnweapon</param>
+/// <param name="ammo1">The amount of ammunition for the primary spawnweapon</param>
 /// <param name="weapon2">The second spawn-<a href="http://wiki.sa-mp.com/wiki/Weapons">weapon</a> for the player</param>
-/// <param name="weapon2_ammo">The amount of ammunition for the second spawnweapon</param>
+/// <param name="ammo2">The amount of ammunition for the second spawnweapon</param>
 /// <param name="weapon3">The third spawn-<a href="http://wiki.sa-mp.com/wiki/Weapons">weapon</a> for the player</param>
-/// <param name="weapon3_ammo">The amount of ammunition for the third spawnweapon</param>
+/// <param name="ammo3">The amount of ammunition for the third spawnweapon</param>
 /// <seealso name="SetPlayerSkin"/>
 /// <seealso name="SetPlayerTeam"/>
 /// <seealso name="SpawnPlayer"/>
-NATIVE__ SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo) \
-    = bool:Player_SetSpawnInfo(Player:playerid, teamid, skinid, Float:posX, Float:posY, Float:posZ, Float:angle, weapon1 = 0, weapon1_ammo = 0, weapon2 = 0, weapon2_ammo = 0, weapon3 = 0, weapon3_ammo = 0);
+NEW_NATIVE__ bool:Player_SetSpawnInfo(Player:playerid, teamid, skinid, Float:posX, Float:posY, Float:posZ, Float:angle, \
+	weapon1 = 0, ammo1 = 0, \
+	weapon2 = 0, ammo2 = 0, \
+	weapon3 = 0, ammo3 = 0, \
+	weapon4 = 0, ammo4 = 0, \
+	weapon5 = 0, ammo5 = 0, \
+	weapon6 = 0, ammo6 = 0, \
+	weapon7 = 0, ammo7 = 0, \
+	weapon8 = 0, ammo8 = 0, \
+	weapon9 = 0, ammo9 = 0, \
+	weapon10 = 0, ammo10 = 0, \
+	weapon11 = 0, ammo11 = 0, \
+	weapon12 = 0, ammo12 = 0, \
+	weapon13 = 0, ammo13 = 0)
+	return SetSpawnInfo(playerid, team, skin, x, y, z, angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3);
+
+OLD_NATIVE__ SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3)
+	return Player_SetSpawnInfo(Player:playerid, team, skin, x, y, z, angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3);
 
 /// <summary>(Re)Spawns a player.</summary>
 /// <param name="playerid">The ID of the player to spawn</param>
@@ -469,7 +544,7 @@ NATIVE__ SetPlayerHealth(playerid, Float:health) \
 ///   <b><c>1</c></b> - success.<p/>
 ///   <b><c>0</c></b> - failure (i.e. player not connected).<p/>
 /// </returns>
-NATIVE_FLOAT__ GetPlayerHealth(playerid, &Float:health) \
+FLOAT_NATIVE__ GetPlayerHealth(playerid, &Float:health) \
 	= Float:Player_GetHealth(Player:playerid);
 
 /// <summary>Set a player's armor level.</summary>
@@ -500,7 +575,7 @@ NATIVE__ SetPlayerArmour(playerid, Float:armour) \
 ///   <b><c>1</c></b> - success.<p/>
 ///   <b><c>0</c></b> - failure (i.e. player not connected).<p/>
 /// </returns>
-NATIVE_FLOAT__ GetPlayerArmour(playerid, &Float:armour) \
+FLOAT_NATIVE__ GetPlayerArmour(playerid, &Float:armour) \
 	= Float:Player_GetArmour(Player:playerid);
 
 /// <summary>Set the ammo of a player's weapon.</summary>
@@ -1250,11 +1325,6 @@ NATIVE__ RemoveBuildingForPlayer(playerid, modelid, Float:fX, Float:fY, Float:fZ
 NATIVE__ GetPlayerLastShotVectors(playerid, &Float:fOriginX, &Float:fOriginY, &Float:fOriginZ, &Float:fHitPosX, &Float:fHitPosY, &Float:fHitPosZ) \
 	= bool:Player_GetLastShotVectors(Player:playerid, &Float:fOriginX, &Float:fOriginY, &Float:fOriginZ, &Float:fHitPosX, &Float:fHitPosY, &Float:fHitPosZ);
 
-// Attached to bone objects
-#if MAX_PLAYER_ATTACHED_OBJECTS < 1 || MAX_PLAYER_ATTACHED_OBJECTS > 10
-	#error MAX_PLAYER_ATTACHED_OBJECTS must be >= 1 and <= 10
-#endif
-
 /// <summary>Attach an object to a specific bone on a player.</summary>
 /// <param name="playerid">The ID of the player to attach the object to</param>
 /// <param name="index">The index (slot) to assign the object to (0-9 since 0.3d, 0-4 in previous versions)</param>
@@ -1350,10 +1420,6 @@ OLD_NATIVE__ IsPlayerAttachedObjectSlotUsed(playerid, index)
 /// <returns><b><c>1</c></b> on success and <b><c>0</c></b> on failure.</returns>
 NATIVE__ EditAttachedObject(playerid, index) \
 	= bool:Player_EditAttachedObject(Player:playerid, slot);
-
-#if MAX_CHATBUBBLE_LENGTH < 1 || MAX_CHATBUBBLE_LENGTH > 144
-	#error MAX_CHATBUBBLE_LENGTH must be >= 1 and <= 144
-#endif
 
 /// <summary>Creates a chat bubble above a player's name tag.</summary>
 /// <param name="playerid">The player which should have the chat bubble</param>
@@ -2118,5 +2184,5 @@ NATIVE__ CreateExplosionForPlayer(playerid, Float:x, Float:y, Float:z, type, Flo
 /// <param name="memOffset">The offset from the base address</param>
 /// <param name="byteCount">The number of bytes to check</param>
 NATIVE__ SendClientCheck(playerid, type, memAddr, memOffset, byteCount) \
-	= bool:Player_SendClientCheck(Player:playerid, type, memAddr, memOffset, byteCount);
+	= bool:Player_SendClientCheck(Player:playerid, CheckType:type, memAddr, memOffset, byteCount);
 
