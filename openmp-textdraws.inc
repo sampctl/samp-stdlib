@@ -460,3 +460,25 @@ NATIVE__ PlayerTextDrawSetPreviewRot(playerid, PlayerText:text, Float:fRotX, Flo
 /// <remarks>The textdraw MUST use the font <b><c>TEXT_DRAW_FONT_MODEL_PREVIEW</c></b> and be showing a vehicle in order for this function to have effect.</remarks>
 NATIVE__ PlayerTextDrawSetPreviewVehCol(playerid, PlayerText:text, color1, color2);
 
+/// <summary>Display the cursor and allow the player to select a textdraw.</summary>
+/// <param name="playerid">The ID of the player that should be able to select a textdraw</param>
+/// <param name="hovercolor">The color of the textdraw when hovering over with mouse (<b>RGBA</b>)</param>
+/// <seealso name="CancelSelectTextDraw"/>
+/// <seealso name="TextDrawSetSelectable"/>
+/// <seealso name="PlayerTextDrawSetSelectable"/>
+/// <seealso name="OnPlayerClickTextDraw"/>
+/// <seealso name="OnPlayerClickPlayerTextDraw"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+/// <remarks><a href="#TextDrawSetSelectable">TextDrawSetSelectable</a> or <a href="#PlayerTextDrawSetSelectable">PlayerTextDrawSetSelectable</a> MUST be used first, to allow a textdraw to be selectable.</remarks>
+/// <remarks>It is the TEXT which will be highlighted when hovered over, NOT the box (if one is shown).</remarks>
+NATIVE__ SelectTextDraw(playerid, hovercolor); // enables the mouse so the player can select a textdraw
+
+/// <summary>Cancel textdraw selection with the mouse.</summary>
+/// <param name="playerid">The ID of the player that should be the textdraw selection disabled</param>
+/// <seealso name="SelectTextDraw"/>
+/// <seealso name="TextDrawSetSelectable"/>
+/// <seealso name="OnPlayerClickTextDraw"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+/// <remarks>This function calls <a href="#OnPlayerClickTextDraw">OnPlayerClickTextDraw</a> with <b><c>INVALID_TEXT_DRAW</c></b> (<b><c>65535</c></b>). Using this function inside <a href="#OnPlayerClickTextDraw">OnPlayerClickTextDraw</a> without catching this case will cause clients to go into an infinite loop.</remarks>
+NATIVE__ CancelSelectTextDraw(playerid);	// cancel textdraw selection with the mouse
+

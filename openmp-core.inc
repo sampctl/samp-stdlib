@@ -23,6 +23,15 @@
 // Defines
 // --------------------------------------------------
 
+enum VWSetType
+{
+	// Add the given VW to the list of VWs (usually the default).
+	VW_ADD,
+	VW_REMOVE,
+	// Set this as the only virtual world (usually the default).
+	VW_UNIQUE,
+}
+
 // Limits
 #if !defined MAX_PLAYER_NAME
 	#define MAX_PLAYER_NAME                    (24)
@@ -3197,4 +3206,20 @@ forward OnClientCheckResponse(playerid, actionid, memaddr, retndata);
 forward OnScriptCash(playerid, amount, source);
 
 // --------------------------------------------------
+
+/// <summary>Get the animation library/name for the index.</summary>
+/// <param name="index">The animation index, returned by <a href="#GetPlayerAnimationIndex">GetPlayerAnimationIndex</a></param>
+/// <param name="animlib">String variable that stores the animation library</param>
+/// <param name="len1">Size of the string that stores the animation library</param>
+/// <param name="animname">String variable that stores the animation name</param>
+/// <param name="len2">Size of the string that stores the animation name</param>
+/// <seealso name="GetPlayerAnimationIndex"/>
+/// <remarks>This function was added in <b>SA-MP 0.3b</b> and will not work in earlier versions!</remarks>
+/// <returns><b><c>1</c></b> on success, <b><c>0</c></b> on failure.</returns>
+NATIVE__ GetAnimationName(index, animlib[], len1 = sizeof animlib, animname[], len2 = sizeof animname);
+
+/// <summary>Enables or disables stunt bonuses for all players. If enabled, players will receive monetary rewards when performing a stunt in a vehicle (e.g. a wheelie).</summary>
+/// <param name="enable"><b><c>1</c></b> to enable stunt bonuses or <b><c>0</c></b> to disable them</param>
+/// <seealso name="EnableStuntBonusForPlayer"/>
+NATIVE__ EnableStuntBonusForAll(enable);
 

@@ -641,3 +641,21 @@ native SetPlayerObjectMaterialText(playerid, objectid, const text[], materialind
 /// <remarks>This only works outside the map boundaries (past <b><c>-3000</c></b>/<b><c>3000</c></b> units on the x and/or y axis).</remarks>
 native SetObjectsDefaultCameraCol(disable);
 
+/// <summary>You can use this function to attach the player camera to objects.</summary>
+/// <param name="playerid">The ID of the player which will have your camera attached on object</param>
+/// <param name="objectid">The object id which you want to attach the player camera</param>
+/// <seealso name="AttachCameraToPlayerObject"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+/// <remarks>You need to create the object first, before attempting to attach a player camera for that.</remarks>
+OLD_NATIVE__ AttachCameraToObject(playerid, objectid);
+
+/// <summary>Attaches a player's camera to a player-object. The player is able to move their camera while it is attached to an object. Can be used with MovePlayerObject and AttachPlayerObjectToVehicle.</summary>
+/// <param name="playerid">The ID of the player which will have their camera attached to a player-object</param>
+/// <param name="playerobjectid">The ID of the player-object to which the player's camera will be attached</param>
+/// <seealso name="AttachCameraToObject"/>
+/// <seealso name="SetPlayerCameraPos"/>
+/// <seealso name="SetPlayerCameraLookAt"/>
+/// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
+/// <remarks>The player-object must be created before attempting to attach the player's camera to it.</remarks>
+OLD_NATIVE__ AttachCameraToPlayerObject(playerid, playerobjectid);
+
