@@ -266,6 +266,11 @@ stock bool:Object_SetRotation_Z(Object:objectid, Float:z)
 NEW_NATIVE__ Object_GetModel(Object:objectid);
 NEW_NATIVE__ bool:Object_SetModel(Object:objectid, model);
 
+NEW_NATIVE__ Float:Object_GetStreamDistance(Object:objectid);
+NEW_NATIVE__ bool:Object_SetStreamDistance(Object:objectid, Float:distance);
+NEW_NATIVE__ Float:Object_GetDrawDistance(Object:object);
+NEW_NATIVE__ bool:Object_SetDrawDistance(Object:object, Float:distance);
+
 /// <summary>Disable collisions between players' cameras and the specified object.</summary>
 /// <param name="objectid">The ID of the object to disable camera collisions on</param>
 /// <seealso name="SetObjectsDefaultCameraCol"/>
@@ -437,7 +442,7 @@ OLD_NATIVE__ GetObjectModel(objectid);
 #pragma deprecated Use `Object_Move` instead.
 OLD_NATIVE__ MoveObject(objectid, Float:X, Float:Y, Float:Z, Float:Speed, Float:rotX = -1000.0, Float:rotY = -1000.0, Float:rotZ = -1000.0);
 
-#pragma deprecated Use `Object_ToggleCameraCollision` instead.
+#pragma deprecated Use `Object_ToggleClipping` instead.
 OLD_NATIVE__ SetObjectNoCameraCol(objectid);
 
 #pragma deprecated Use `Object_Stop` instead.
@@ -491,7 +496,7 @@ OLD_NATIVE__ GetPlayerObjectModel(playerid, objectid);
 #pragma deprecated Use `Object_Move` instead.
 OLD_NATIVE__ MovePlayerObject(playerid, objectid, Float:X, Float:Y, Float:Z, Float:Speed, Float:rotX = -1000.0, Float:rotY = -1000.0, Float:rotZ = -1000.0);
 
-#pragma deprecated Use `Object_SetCameraCollision` instead.
+#pragma deprecated Use `Object_ToggleClipping` instead.
 OLD_NATIVE__ SetPlayerObjectNoCameraCol(playerid, objectid);
 
 #pragma deprecated Use `Object_Stop` instead.
