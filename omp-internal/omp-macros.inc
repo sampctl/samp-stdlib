@@ -115,7 +115,7 @@
 #endif
 
 #define NATIVE__%0; u@(u[_:_NATIVE__D0:_NATIVE__D1:u@$%0;
-#define _NATIVE__D0:%8$%0(%1)%9=%2(%3) %8$_OLD_NATIVE__%0(%1)=%2(%3);_NEW_NATIVE__ %2(%3)=%0(%1)
+#define _NATIVE__D0:_NATIVE__D1:%8$%0(%1)%9=%2(%3) %8$_OLD_NATIVE__%0(%1)=%2(%3);_NEW_NATIVE__ %2(%3)=%0(%1)
 #if !defined OPENMP_SAMP && defined OPENMP_TESTS
 	#define _NATIVE__D1:%8$%0(%1); %8$native%0(%1);_OPENMP_TESTS(%0(%1))
 #else

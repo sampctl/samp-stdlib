@@ -658,7 +658,7 @@ stock Player:Player_GetTargetedPlayer(Player:playerid)
 
 /// <summary>Gets id of an actor which is aimed by certain player.</summary>
 /// <param name="playerid">The ID of the player to get the target of</param>
-/// <seealso name="Player_GetCameraTargetActor"/>
+/// <seealso name="Player_GetFocusActor"/>
 /// <seealso name="Player_GetCameraFrontVector"/>
 /// <seealso name="OnPlayerGiveDamageActor"/>
 /// <remarks>Does not work for joypads/controllers, and after a certain distance. </remarks>
@@ -1567,7 +1567,7 @@ NATIVE__ ClearAnimations(playerid, forcesync = 0) \
 /// <seealso name="GetAnimationName"/>
 /// <remarks>This function was added in <b>SA-MP 0.3b</b> and will not work in earlier versions!</remarks>
 /// <returns><b><c>0</c></b> if there is no animation applied.</returns>
-NATIVE__ GetPlayerAnimationIndex(playerid);
+NATIVE__ GetPlayerAnimationIndex(playerid) \
 	= Player_GetAnimationIndex(Player:playerid);
 
 /// <summary>Retrieves a player's current <a href="http://wiki.sa-mp.com/wiki/SpecialActions">special action</a>.</summary>
@@ -1667,13 +1667,13 @@ NATIVE__ SetPlayerSpecialAction(playerid, actionid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.
 /// </returns>
-NEW_NATIVE__ bool:Player_ToggleVehicleCollisions(Player:playerid, bool:solid)
+NEW_NATIVE__ bool:Player_ToggleVehiclesSolid(Player:playerid, bool:solid)
 	return !!DisableRemoteVehicleCollisions(playerid, !solid);
 
 OLD_NATIVE__ DisableRemoteVehicleCollisions(playerid, nonSolid)
-	return Player_ToggleVehicleCollisions(Player:playerid, !nonSolid);
+	return Player_ToggleVehiclesSolid(Player:playerid, !nonSolid);
 
-NEW_NATIVE__ bool:Player_GetVehicleCollisions(Player:playerid);
+NEW_NATIVE__ bool:Player_GetVehiclesSolid(Player:playerid);
 
 // Player world/map related
 
@@ -1687,11 +1687,11 @@ NEW_NATIVE__ bool:Player_GetVehicleCollisions(Player:playerid);
 /// <remarks>This function does not work if used in <a href="#OnPlayerConnect">OnPlayerConnect</a></remarks>
 /// <remarks>A player's world boundaries can be reset by setting them to <b><c>20000.0</c></b>, <b><c>-20000.0</c></b>, <b><c>20000.0</c></b>, <b><c>-20000.0</c></b>. These are the default values.</remarks>
 /// <remarks>This function doesn't work in interiors!</remarks>
+NEW_NATIVE__ Player_SetWorldBounds(Player:playerid, Float:minX, Float:minY, Float:maxX, Float:maxY)
+	return SetPlayerWorldBounds(_:playerid, maxX, minX, maxY, minY);
+
 OLD_NATIVE__ SetPlayerWorldBounds(playerid, Float:maxX, Float:minX, Float:maxY, Float:minY)
 	return Player_SetWorldBounds(Player:playerid, minX, minY, maxX, maxY);
-	
-NEW_NATIVE__ Player_SetWorldBounds(playerid, Float:minX, Float:minY, Float:maxX, Float:maxY)
-	return SetPlayerWorldBounds(_:playerid, maxX, minX, maxY, minY);
 
 NEW_NATIVE__ bool:Player_GetWorldBounds(Player:playerid, &Float:minX, &Float:minY, &Float:maxX, &Float:maxY);
 
@@ -1791,7 +1791,7 @@ NATIVE__ SetPlayerCameraPos(playerid, Float:x, Float:y, Float:z) \
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.
 /// </returns>
 NATIVE__ SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z, cut = CAMERA_CUT) \
-	= bool:Player_SetCameraTarget(Player:playerid, Float:x, Float:y, Float:z, CameraMovement:cut = CAMERA_MOVEMENT_CUT);
+	= bool:Player_SetFocus(Player:playerid, Float:x, Float:y, Float:z, CameraMovement:cut = CAMERA_MOVEMENT_CUT);
 
 /// <summary>Restore the camera to a place behind the player, after using a function like <a href="#SetPlayerCameraPos">SetPlayerCameraPos</a>.</summary>
 /// <param name="playerid">The player you want to restore the camera for</param>
@@ -1853,7 +1853,7 @@ NATIVE__ GetPlayerCameraMode(playerid) \
 ///   <b><c>0</c></b>: The function failed to execute. The player is not connected.
 /// </returns>
 NATIVE__ EnablePlayerCameraTarget(playerid, enable) \
-	= bool:Player_ToggleCameraTarget(Player:playerid, bool:enable);
+	= bool:Player_ToggleFocusSync(Player:playerid, bool:enable);
 
 /// <summary>Allows you to retrieve the ID of the object the player is looking at.</summary>
 /// <param name="playerid">The ID of the player to check</param>
@@ -1863,14 +1863,14 @@ NATIVE__ EnablePlayerCameraTarget(playerid, enable) \
 /// <remarks>This function was added in <b>SA-MP 0.3.7</b> and will not work in earlier versions!</remarks>
 /// <remarks>This function is disabled by default to save bandwidth. Use <a href="#EnablePlayerCameraTarget">EnablePlayerCameraTarget</a> to enable it for each player.</remarks>
 /// <returns>The ID of the object playerid is looking at. If <b><c>INVALID_OBJECT_ID (65535)</c></b> is returned, playerid isn't looking at any object.</returns>
-NEW_NATIVE__ bool:Player_TryGetCameraTargetObject(Player:playerid, &Object:targetid)
+NEW_NATIVE__ bool:Player_TryGetFocusObject(Player:playerid, &Object:targetid)
 	return (targetid = Object:GetPlayerCameraTargetObject(_:playerid)) != (Object:INVALID_OBJECT_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetObject(playerid)
-	return Player_TryGetCameraTargetObject(Player:playerid, Object:playerid) ? (_:playerid) : (_:INVALID_OBJECT_ID);
+	return Player_TryGetFocusObject(Player:playerid, Object:playerid) ? (_:playerid) : (_:INVALID_OBJECT_ID);
 
-stock Object:Player_GetCameraTargetObject(Player:playerid)
-	return Player_TryGetCameraTargetObject(playerid, Object:playerid) ? (Object:playerid) : (Object:INVALID_OBJECT_ID);
+stock Object:Player_GetFocusObject(Player:playerid)
+	return Player_TryGetFocusObject(playerid, Object:playerid) ? (Object:playerid) : (Object:INVALID_OBJECT_ID);
 
 /// <summary>Get the ID of the vehicle the player is looking at.</summary>
 /// <param name="playerid">The ID of the player to check</param>
@@ -1882,14 +1882,14 @@ stock Object:Player_GetCameraTargetObject(Player:playerid)
 /// <remarks>This function is disabled by default to save bandwidth. Use <a href="#EnablePlayerCameraTarget">EnablePlayerCameraTarget</a> to enable it for each player.</remarks>
 /// <remarks>This function can (obviously) only return one vehicle ID at a time, while the player may be looking at multiple. It generally seems to detect the closest vehicle first.</remarks>
 /// <returns>The vehicle ID of the vehicle the player is looking at. <b><c>INVALID_VEHICLE_ID</c></b> if none.</returns>
-NEW_NATIVE__ bool:Player_TryGetCameraTargetVehicle(Player:playerid, &Vehicle:targetid)
+NEW_NATIVE__ bool:Player_TryGetFocusVehicle(Player:playerid, &Vehicle:targetid)
 	return (targetid = Vehicle:GetPlayerCameraTargetVehicle(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetVehicle(playerid)
-	return Player_TryGetCameraTargetVehicle(Player:playerid, Vehicle:playerid) ? (_:playerid) : (_:INVALID_VEHICLE_ID);
+	return Player_TryGetFocusVehicle(Player:playerid, Vehicle:playerid) ? (_:playerid) : (_:INVALID_VEHICLE_ID);
 
-stock Vehicle:Player_GetCameraTargetVehicle(Player:playerid)
-	return Player_TryGetCameraTargetVehicle(playerid, Vehicle:playerid) ? (Vehicle:playerid) : (Vehicle:INVALID_VEHICLE_ID);
+stock Vehicle:Player_GetFocusVehicle(Player:playerid)
+	return Player_TryGetFocusVehicle(playerid, Vehicle:playerid) ? (Vehicle:playerid) : (Vehicle:INVALID_VEHICLE_ID);
 
 /// <summary>Allows you to retrieve the ID of the player the playerid is looking at.</summary>
 /// <param name="playerid">The ID of the player to check</param>
@@ -1901,14 +1901,14 @@ stock Vehicle:Player_GetCameraTargetVehicle(Player:playerid)
 /// <remarks>This function is disabled by default to save bandwidth. Use <a href="#EnablePlayerCameraTarget">EnablePlayerCameraTarget</a> to enable it for each player.</remarks>
 /// <remarks>Do not confuse this function with <a href="#GetPlayerTargetPlayer">GetPlayerTargetPlayer</a>. <a href="#GetPlayerTargetPlayer">GetPlayerTargetPlayer</a> returns the ID of the player playerid is aming at (with a weapon). <a href="#GetPlayerCameraTargetPlayer">GetPlayerCameraTargetPlayer</a> returns the ID of the player playerid is looking at (reference point is the <b>center of the screen</b>).</remarks>
 /// <returns>The ID of the player the playerid is looking at.</returns>
-NEW_NATIVE__ bool:Player_TryGetCameraTargetPlayer(Player:playerid, &Player:targetid)
+NEW_NATIVE__ bool:Player_TryGetFocusPlayer(Player:playerid, &Player:targetid)
 	return (targetid = Player:GetPlayerCameraTargetPlayer(_:playerid)) != (Player:INVALID_PLAYER_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetPlayer(playerid)
-	return Player_TryGetCameraTargetPlayer(Player:playerid, Player:playerid) ? (_:playerid) : (_:INVALID_PLAYER_ID);
+	return Player_TryGetFocusPlayer(Player:playerid, Player:playerid) ? (_:playerid) : (_:INVALID_PLAYER_ID);
 
-stock Player:Player_GetCameraTargetPlayer(Player:playerid)
-	return Player_TryGetCameraTargetPlayer(playerid, Player:playerid) ? (Player:playerid) : (Player:INVALID_PLAYER_ID);
+stock Player:Player_GetFocusPlayer(Player:playerid)
+	return Player_TryGetFocusPlayer(playerid, Player:playerid) ? (Player:playerid) : (Player:INVALID_PLAYER_ID);
 
 /// <summary>Allows you to retrieve the ID of the actor the player is looking at (if any).</summary>
 /// <param name="playerid">The ID of the player to get the target actor of</param>
@@ -1921,14 +1921,14 @@ stock Player:Player_GetCameraTargetPlayer(Player:playerid)
 /// <remarks>This function is disabled by default to save bandwidth. Use <a href="#EnablePlayerCameraTarget">EnablePlayerCameraTarget</a> to enable it for each player.</remarks>
 /// <remarks>This function only tells you which actor (if any) the player is <b>looking</b> at. To find out if they are <b>aiming</b> at them, you need to use <a href="#GetPlayerTargetActor">GetPlayerTargetActor</a>.</remarks>
 /// <returns>The ID of the actor the player is looking at.</returns>
-NEW_NATIVE__ bool:Player_TryGetCameraTargetActor(Player:playerid, &Actor:targetid)
+NEW_NATIVE__ bool:Player_TryGetFocusActor(Player:playerid, &Actor:targetid)
 	return (targetid = Actor:GetPlayerCameraTargetActor(_:playerid)) != (Actor:INVALID_ACTOR_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetActor(playerid)
-	return Player_TryGetCameraTargetActor(Player:playerid, Actor:playerid) ? (_:playerid) : (_:INVALID_ACTOR_ID);
+	return Player_TryGetFocusActor(Player:playerid, Actor:playerid) ? (_:playerid) : (_:INVALID_ACTOR_ID);
 
-stock Actor:Player_GetCameraTargetActor(Player:playerid)
-	return Player_TryGetCameraTargetActor(playerid, Actor:playerid) ? (Actor:playerid) : (Actor:INVALID_ACTOR_ID);
+stock Actor:Player_GetFocusActor(Player:playerid)
+	return Player_TryGetFocusActor(playerid, Actor:playerid) ? (Actor:playerid) : (Actor:INVALID_ACTOR_ID);
 
 /// <summary>Retrieves the aspect ratio of a player's camera.</summary>
 /// <param name="playerid">The ID of the player to get the camera aspect ratio of</param>
@@ -1940,7 +1940,7 @@ stock Actor:Player_GetCameraTargetActor(Player:playerid)
 /// <returns>The aspect ratio of the player's camera, as a float. The aspect ratio can be one of three values: 4:3 (<b><c>1.3333334</c></b>, <b><c>Float:0x3FAAAAAB</c></b>) when widescreen is turned off, 5:4 (<b><c>1.2470589</c></b>, <b><c>Float:0x3F9F9FA0</c></b>) when letterbox mode is turned on, and 16:9 (<b><c>1.7764707</c></b>, <b><c>Float:0x3FE36364</c></b>) when widescreen is turned on regardless of the letterbox mode.</returns>
 forward ScreenMode:Player_GetScreenMode(Player:playerid);
 
-OLD_NATIVE__ Float:GetPlayerCameraAspectRatio(playerid);
+OLD_NATIVE__ Float:GetPlayerCameraAspectRatio(playerid)
 {
 	switch (Player_GetScreenMode(_:playerid))
 	{
@@ -2007,7 +2007,7 @@ NATIVE__ InterpolateCameraPos(playerid, Float:fromX, Float:fromY, Float:fromZ, F
 /// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
 /// <remarks>Use <b><c>togglePlayerSpectating</c></b> to make objects stream in for the player while the camera is moving. You can reset the camera behind the player with <b><c>SetCameraBehindPlayer</c></b>.</remarks>
 NATIVE__ InterpolateCameraLookAt(playerid, Float:fromX, Float:fromY, Float:fromZ, Float:toX, Float:toY, Float:toZ, time, cut = CAMERA_CUT) \
-	= bool:Player_MoveCameraTarget(Player:playerid, Float:fromX, Float:fromY, Float:fromZ, Float:toX, Float:toY, Float:toZ, time, CameraMovement:movementType = CAMERA_MOVEMENT_CUT);
+	= bool:Player_MoveFocus(Player:playerid, Float:fromX, Float:fromY, Float:fromZ, Float:toX, Float:toY, Float:toZ, time, CameraMovement:movementType = CAMERA_MOVEMENT_CUT);
 
 /// <summary>You can use this function to attach the player camera to objects.</summary>
 /// <param name="playerid">The ID of the player which will have your camera attached on object</param>
@@ -2044,7 +2044,7 @@ NATIVE__ IsPlayerConnected(playerid) \
 /// <seealso name="GetPlayerVehicleSeat"/>
 /// <returns><b><c>1</c></b> if the player is in the vehicle, <b><c>0</c></b> if not.</returns>
 NATIVE__ IsPlayerInVehicle(playerid, vehicleid) \
-	= bool:Player_IsInVehicle(Player:playerid, Vehicle:vehicleid = INVALID_VEHICLE_ID);
+	= bool:Player_IsInVehicle(Player:playerid, Vehicle:vehicleid = Vehicle:INVALID_VEHICLE_ID);
 
 /// <summary>Check if a player is inside any vehicle (as a driver or passenger).</summary>
 /// <param name="playerid">The ID of the player to check</param>
