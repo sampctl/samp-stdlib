@@ -176,7 +176,7 @@
 #endif
 
 #if defined OPENMP_TESTS
-	#include "openmp/internal/code-parse"
+	#include "openmp/internal/omp-code-parse"
 
 	#define _OPENMP_TESTS(%0(%1)) FUNC_PARSER(_OPENMP,CST_ARR_MUL_TAG:NUM_TAG:REF_TAG:EXT:RET_TAG:)(%0(%1))()
 
