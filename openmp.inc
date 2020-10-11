@@ -40,7 +40,7 @@
 //#include "openmp-vehicles.inc"
 #include "openmp-objects.inc"
 #include "openmp-pickups.inc"
-//#include "openmp-actors.inc"
+#include "openmp-actors.inc"
 //#include "openmp-visual.inc"
 //#include "openmp-turfs.inc"
 //#include "openmp-compat.inc"

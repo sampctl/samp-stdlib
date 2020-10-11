@@ -1798,7 +1798,7 @@ NATIVE__ SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z, cut = CAMERA
 /// <seealso name="SetPlayerCameraPos"/>
 /// <seealso name="SetPlayerCameraLookAt"/>
 NATIVE__ SetCameraBehindPlayer(playerid) \
-	= bool:Player_SetCameraBehind(Player:playerid);
+	= bool:Player_ResetCamera(Player:playerid);
 
 /// <summary>Get the position of the player's camera.</summary>
 /// <param name="playerid">The ID of the player to get the camera position of</param>

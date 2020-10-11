@@ -247,8 +247,8 @@ stock Float:Object_GetRotation_Z(Object:objectid)
 /// <seealso name="CreateObject"/>
 /// <seealso name="SetPlayerObjectRot"/>
 /// <returns>This function always returns <b><c>1</c></b>, even if the object doesn't exist.</returns>
-native bool:Object_SetRotation_E(Object:actorid, Float:x, Float:y, Float:z);
-forward bool:Object_SetRotation_Q(Object:actorid, Float:w, Float:x, Float:y, Float:z);
+native bool:Object_SetRotation_E(Object:objectid, Float:x, Float:y, Float:z);
+forward bool:Object_SetRotation_Q(Object:objectid, Float:w, Float:x, Float:y, Float:z);
 stock bool:Object_SetRotation_Z(Object:objectid, Float:z)
 	return Object_SetRotation_E(objectid, 0.0, 0.0, z);
 
@@ -534,6 +534,7 @@ OLD_NATIVE__ SetDefaultObjectCameraCollision(disable);
 /// <param name="objectid">The object id which you want to attach the player camera</param>
 /// <seealso name="Player_AttachCameraToObject"/>
 /// <remarks>You need to create the object first, before attempting to attach a player camera for that.</remarks>
+#pragma deprecated Use `Player_AttachCameraToObject` instead.
 OLD_NATIVE__ AttachCameraToObject(playerid, objectid);
 
 /// <summary>Attaches a player's camera to a player-object. The player is able to move their camera while it is attached to an object. Can be used with MovePlayerObject and AttachPlayerObjectToVehicle.</summary>
@@ -543,5 +544,6 @@ OLD_NATIVE__ AttachCameraToObject(playerid, objectid);
 /// <seealso name="Player_SetCameraPosition"/>
 /// <seealso name="Player_SetCameraLookAt"/>
 /// <remarks>The player-object must be created before attempting to attach the player's camera to it.</remarks>
+#pragma deprecated Use `Player_AttachCameraToObject` instead.
 OLD_NATIVE__ AttachCameraToPlayerObject(playerid, playerobjectid);
 

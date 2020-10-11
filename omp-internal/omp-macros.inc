@@ -92,20 +92,20 @@
 
 #if defined OPENMP_SAMP
 	#if defined OPENMP_QUIET
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${} native%0(%1)
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1)
 	#elseif defined OPENMP_COMPAT
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) native%0(%1)
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0
 	#else
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3); static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0
 	#endif
 	#define _NEW_NATIVE__%2(%3)%9=%0(%1) NATIVE__FIND_TAG%2(%3)=%0
 #else
 	#if defined OPENMP_QUIET
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${} NATIVE__FIND_TAG%0(%1)=%2
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock%0@@(%1);NATIVE__FIND_TAG%0(%1)=%2
 	#elseif defined OPENMP_COMPAT
 		#define _OLD_NATIVE__%0(%1)%9=%2(%3) %0(%1);NATIVE__FIND_TAG%0(%1)=%2
 	#else
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3); static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock%0@@(%1)
 	#endif
 	#if defined OPENMP_TESTS
 		#define _NEW_NATIVE__%2(%3)%9=%0(%1); native%2(%3);_OPENMP_TESTS(%2(%3))
@@ -125,22 +125,22 @@
 #if defined OPENMP_SAMP
 	stock __FLOAT;
 	#if defined OPENMP_QUIET
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}native%0(%1)
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1)
 	#elseif defined OPENMP_COMPAT
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) native%0(%1)
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0
 	#else
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3); static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0
 	#endif
 	#define _NATIVE_FLOAT_NEW__%2(%3)%9=%0(%1&Float:%7) stock%2(%3)return((%0(%1__FLOAT))?__FLOAT:FLOAT_NAN)
 
 	#define FLOAT_NATIVE__%0(%1)%9=%2(%3) _NATIVE_FLOAT_OLD__%0(%1)=%2(%3);_NATIVE_FLOAT_NEW__ %2(%3)=%0(%1)
 #else
 	#if defined OPENMP_QUIET
-		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
+		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) static stock%0@@(%1&Float:%7){}stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
 	#elseif defined OPENMP_COMPAT
 		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
 	#else
-		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3); static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END${}
+		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3); static stock%0@@(%1){}
 	#endif
 	#if defined OPENMP_TESTS
 		#define _NATIVE_FLOAT_NEW__%2(%3)%9=%0(%1); native%2(%3);_OPENMP_TESTS(%2(%3))
@@ -153,25 +153,25 @@
 
 #if defined OPENMP_SAMP
 	#if defined OPENMP_QUIET
-		#define OLD_NATIVE__%0(%1) _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$;native%0(%1);stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1);stock%0@@(%1)
 	#elseif defined OPENMP_COMPAT
-		#define OLD_NATIVE__%0(%1) native%0(%1);static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0;static stock%0@@(%1)
 	#else
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) NATIVE__FIND_TAG%0__(%1)=%0;static stock%0@@(%1)
 	#endif
 	#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N1:_NATIVE__N3:0]);stock%2(%3)NATIVE__END$
 #else
 	#if defined OPENMP_QUIET
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$;stock %0(%1)
+		#define OLD_NATIVE__%0(%1) static stock%0@@(%1);stock%0(%1)
 	#elseif defined OPENMP_COMPAT
 		#define OLD_NATIVE__%0(%1) stock%0(%1)
 	#else
-		#define OLD_NATIVE__%0(%1) static stock _NATIVE_NO_TAG__:_@%0(%1)NATIVE__END$
+		#define OLD_NATIVE__%0(%1) static stock%0@@(%1)
 	#endif
 	#if defined OPENMP_TESTS
-		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);_OPENMP_TESTS(%2(%3))static stock _NATIVE_NO_TAG__:_@%2(%3)NATIVE__END$
+		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);_OPENMP_TESTS(%2(%3))static stock%2@@(%3)
 	#else
-		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);static stock _NATIVE_NO_TAG__:_@%2(%3)NATIVE__END$
+		#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N0:_NATIVE__N2:0]);native%2(%3);static stock%2@@(%3)
 	#endif
 #endif
 
