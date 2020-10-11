@@ -21,6 +21,12 @@
 #pragma option -;+
 #pragma option -(+
 
+#if defined _INC_SAMP_Community_fixes && defined OPENMP_SAMP
+	#error Please include <openmp> before <fixes>.
+#endif
+
+#define OPEN_MP
+
 #include <float>
 #include <core>
 #tryinclude <console>
@@ -31,6 +37,12 @@
 	#define _console_included
 	native print(const string[]);
 	native printf(const format[], {Float,_}:...);
+#endif
+
+#include "omp-internal/omp-constants"
+
+#if defined OPENMP_SAMP
+	#include "omp-internal/omp-fixes"
 #endif
 
 #include "omp-internal/omp-macros"

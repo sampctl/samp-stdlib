@@ -15,31 +15,6 @@ const TAG__<Object>:MAX_OBJECTS = 1000;
 
 const TAG__<Object>:INVALID_OBJECT_ID = 0xFFFF;
 
-enum ObjectMaterialSize //(+= 10)
-{
-	MATERIAL_SIZE_32x32   = 10,
-	MATERIAL_SIZE_64x32   = 20,
-	MATERIAL_SIZE_64x64   = 30,
-	MATERIAL_SIZE_128x32  = 40,
-	MATERIAL_SIZE_128x64  = 50,
-	MATERIAL_SIZE_128x128 = 60,
-	MATERIAL_SIZE_256x32  = 70,
-	MATERIAL_SIZE_256x64  = 80,
-	MATERIAL_SIZE_256x128 = 90,
-	MATERIAL_SIZE_256x256 = 100,
-	MATERIAL_SIZE_512x64  = 110,
-	MATERIAL_SIZE_512x128 = 120,
-	MATERIAL_SIZE_512x256 = 130,
-	MATERIAL_SIZE_512x512 = 140,
-};
-
-enum ObjectMaterialTextAlignment
-{
-	MATERIAL_TEXT_ALIGN_LEFT,
-	MATERIAL_TEXT_ALIGN_CENTER,
-	MATERIAL_TEXT_ALIGN_RIGHT,
-};
-
 // Creation
 /// <summary>Creates an object at specified coordinates in the game world.</summary>
 /// <param name="modelid">The model to create</param>
@@ -351,8 +326,8 @@ NEW_NATIVE__ bool:Object_GetMaterial(Object:objectid, &materialIndex, &model, st
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute.
 /// </returns>
-NEW_NATIVE__ bool:Object_SetMaterialText(Object:objectid, materialIndex, const string:text[], ObjectMaterialSize:materialSize = MATERIAL_SIZE_256x128, const string:fontFace[] = "Arial", fontSize = 24, bool:bold = true, fontColour = 0xFFFFFFFF, backgroundColour = 0, ObjectMaterialTextAlignment:textAlignment = MATERIAL_TEXT_ALIGN_LEFT);
-NEW_NATIVE__ bool:Object_GetMaterialText(Object:objectid, materialIndex, string:text[], &ObjectMaterialSize:materialSize, string:fontFace[], &fontSize, &bool:bold, &fontColour, &backgroundColour, &ObjectMaterialTextAlignment:textAlignment, textSize = sizeof (text), fontFaceSize = sizeof (fontFace));
+NEW_NATIVE__ bool:Object_SetMaterialText(Object:objectid, materialIndex, const string:text[], MaterialSizeTag:materialSize = MATERIAL_SIZE_256x128, const string:fontFace[] = "Arial", fontSize = 24, bool:bold = true, fontColour = 0xFFFFFFFF, backgroundColour = 0, MaterialTextAlignTag:textAlignment = MATERIAL_TEXT_ALIGN_LEFT);
+NEW_NATIVE__ bool:Object_GetMaterialText(Object:objectid, materialIndex, string:text[], &MaterialSizeTag:materialSize, string:fontFace[], &fontSize, &bool:bold, &fontColour, &backgroundColour, &MaterialTextAlignTag:textAlignment, textSize = sizeof (text), fontFaceSize = sizeof (fontFace));
 
 // Movement
 NEW_NATIVE__ bool:Object_GetMoveEndPosition(Object:objectid, &Float:posX, &Float:posY, &Float:posZ);
@@ -464,7 +439,7 @@ OLD_NATIVE__ AttachObjectToPlayer(objectid, playerid, Float:OffsetX, Float:Offse
 OLD_NATIVE__ SetObjectMaterial(objectid, materialindex, modelid, const txdname[], const texturename[], materialcolor = 0x00000000)
 
 #pragma deprecated Use `Object_SetMaterialText` instead.
-OLD_NATIVE__ SetObjectMaterialText(objectid, const text[], materialindex = 0, {ObjectMaterialSize, _}:materialsize = MATERIAL_SIZE_256x128, const fontface[] = "Arial", fontsize = 24, bold = 1, fontcolor = 0xFFFFFFFF, backcolor = 0x00000000, textalignment = 0);
+OLD_NATIVE__ SetObjectMaterialText(objectid, const text[], materialindex = 0, MaterialSizeTag:materialsize = MATERIAL_SIZE_256x128, const fontface[] = "Arial", fontsize = 24, bold = 1, fontcolor = 0xFFFFFFFF, backcolor = 0x00000000, textalignment = 0);
 
 #pragma deprecated Use `Object_Edit` instead.
 OLD_NATIVE__ EditObject(playerid, objectid);
