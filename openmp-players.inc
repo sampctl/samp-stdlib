@@ -42,7 +42,7 @@ NEW_NATIVE__ bool:Player_SetSpawnInfo(Player:playerid, teamid, skinid, Float:pos
 	weapon11 = 0, ammo11 = 0, \
 	weapon12 = 0, ammo12 = 0, \
 	weapon13 = 0, ammo13 = 0)
-	return SetSpawnInfo(playerid, team, skin, x, y, z, angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3);
+	return SetSpawnInfo__(playerid, team, skin, x, y, z, angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3);
 
 OLD_NATIVE__ SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3)
 	return Player_SetSpawnInfo(Player:playerid, team, skin, x, y, z, angle, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3);
@@ -136,7 +136,7 @@ NEW_NATIVE__ bool:Player_SetRotation_Q(Player:playerid, Float:w, Float:x, Float:
 /// <seealso name="Player_SetRotation_Z"/>
 /// <remarks>Angles are reversed in GTA:SA; 90 degrees would be East in the real world, but in GTA:SA 90 degrees is in fact West. North and South are still 0/360 and 180. To convert this, simply do <b>360 - angle</b>.</remarks>
 /// <remarks>Angles returned when inside a vehicle is rarely correct. To get the correct facing angle while inside a vehicle, use <a href="#GetVehicleZAngle">GetVehicleZAngle</a>.</remarks>
-NATIVE__ GetPlayerFacingAngle(playerid, &Float:z) \
+FLOAT_NATIVE__ GetPlayerFacingAngle(playerid, &Float:z) \
 	= Float:Player_GetRotation_Z(Player:objectid);
 NEW_NATIVE__ bool:Player_GetRotation_E(Player:objectid, &Float:x, &Float:y, &Float:z);
 NEW_NATIVE__ bool:Player_GetRotation_Q(Player:objectid, &Float:w, &Float:x, &Float:y, &Float:z);
@@ -345,7 +345,7 @@ NATIVE__ GetPlayerWeaponState(playerid) \
 /// <remarks>Does not work for the sniper rifle, as it doesn't lock on to anything and as such can't and won't return a player. </remarks>
 /// <returns>The ID of the target player, or <b><c>INVALID_PLAYER_ID</c></b> if none.</returns>
 NEW_NATIVE__ bool:Player_TryGetTargetedPlayer(Player:playerid, &Player:targetid)
-	return (targetid = Player:GetPlayerTargetPlayer(_:playerid)) != (Player:INVALID_PLAYER_ID);
+	return (targetid = Player:GetPlayerTargetPlayer__(_:playerid)) != (Player:INVALID_PLAYER_ID);
 
 OLD_NATIVE__ GetPlayerTargetPlayer(playerid)
 	return Player_TryGetTargetedPlayer(Player:playerid, Player:playerid) ? (_:playerid) : (_:INVALID_PLAYER_ID);
@@ -362,7 +362,7 @@ stock Player:Player_GetTargetedPlayer(Player:playerid)
 /// <remarks>Does not work for the sniper rifle, as it doesn't lock on to anything and as such can't and won't return a player. </remarks>
 /// <returns>The ID of the targeted actor, or <b><c>INVALID_ACTOR_ID</c></b> if none.</returns>
 NEW_NATIVE__ bool:Player_TryGetTargetedActor(Player:playerid, &Actor:targetid)
-	return (targetid = Actor:GetPlayerTargetActor(_:playerid)) != (Actor:INVALID_ACTOR_ID);
+	return (targetid = Actor:GetPlayerTargetActor__(_:playerid)) != (Actor:INVALID_ACTOR_ID);
 
 OLD_NATIVE__ GetPlayerTargetActor(playerid)
 	return Player_TryGetTargetedActor(Player:playerid, Actor:playerid) ? (_:playerid) : (_:INVALID_ACTOR_ID);
@@ -613,7 +613,7 @@ NATIVE__ GetPlayerMoney(playerid) \
 /// <seealso name="GetPlayerMoney"/>
 /// <returns>The amount of money the player has.</returns>
 NEW_NATIVE__ bool:Player_SetMoney(Player:playerid, money)
-	return !!GivePlayerMoney(_:playerid, money - GetPlayerMoney(_:playerid));
+	return !!GivePlayerMoney__(_:playerid, money - GetPlayerMoney__(_:playerid));
 
 /// <summary>Reset a player's money to $0.</summary>
 /// <param name="playerid">The ID of the player to reset the money of</param>
@@ -954,7 +954,7 @@ NEW_NATIVE__ Player_GetSkillLevel(Player:playerid, {WeaponSkill, _}:skill);
 /// <seealso name="Player_GetVehicleSeat"/>
 /// <returns>The ID of the vehicle that the player is surfing. If they are not surfing a vehicle or the vehicle they are surfing has no driver, <b><c>INVALID_VEHICLE_ID</c></b>. If the player specified is not connected, <b><c>INVALID_VEHICLE_ID</c></b> also.</returns>
 NEW_NATIVE__ bool:Player_TryGetSurfedVehicle(Player:playerid, &Vehicle:targetid)
-	return (targetid = Vehicle:GetPlayerSurfingVehicleID(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
+	return (targetid = Vehicle:GetPlayerSurfingVehicleID__(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
 
 /// <summary>Get the ID of the vehicle that the player is surfing (stuck to the roof of).</summary>
 /// <param name="playerid">The ID of the player you want to know the surfing vehicle ID of</param>
@@ -972,7 +972,7 @@ stock Vehicle:Player_GetSurfedVehicle(Player:playerid)
 /// <param name="playerid">The ID of the player surfing the object</param>
 /// <returns>The ID of the <b>moving</b> object the player is surfing. If the player isn't surfing a <b>moving</b> object, it will return <b><c>INVALID_OBJECT_ID</c></b>.</returns>
 NEW_NATIVE__ bool:Player_TryGetSurfedObject(Player:playerid, &Object:targetid)
-	return (targetid = Object:GetPlayerSurfingObjectID(_:playerid)) != (Object:INVALID_OBJECT_ID);
+	return (targetid = Object:GetPlayerSurfingObjectID__(_:playerid)) != (Object:INVALID_OBJECT_ID);
 
 /// <summary>Returns the ID of the object the player is surfing on.</summary>
 /// <param name="playerid">The ID of the player surfing the object</param>
@@ -1088,11 +1088,20 @@ NATIVE__ RemovePlayerAttachedObject(playerid, index) \
 /// <seealso name="RemovePlayerAttachedObject"/>
 /// <remarks>This function was added in <b>SA-MP 0.3c</b> and will not work in earlier versions!</remarks>
 /// <returns><b><c>1</c></b> if used, <b><c>0</c></b> if not.</returns>
-// TODO: This needs manually expanding, due to character limits.
-NEW_NATIVE__ Player_GetAttachedObject(Player:playerid, slot);
 
-OLD_NATIVE__ IsPlayerAttachedObjectSlotUsed(playerid, index)
-	return !!Player_GetAttachedObject(Player:playerid, slot);
+// Have to do this one the hard way, because the macro results in a function
+// name >31 characters.
+#if defined OPENMP_COMPAT
+	#if !defined OPENMP_QUIET
+		#pragma deprecated Use `Player_GetAttachedObject` instead.
+	#endif
+	#if defined OPENMP_SAMP
+		native IsPlayerAttachedObjectSlotUsed(playerid, index);
+	#else
+		stock IsPlayerAttachedObjectSlotUsed(playerid, index)
+			return Player_GetAttachedObject(Player:playerid, slot);
+	#endif
+#endif
 
 /// <summary>Enter edition mode for an attached object.</summary>
 /// <param name="playerid">The ID of the player to enter in to edition mode</param>
@@ -1168,7 +1177,7 @@ NATIVE__ PutPlayerInVehicle(playerid, vehicleid, seatid) \
 /// <seealso name="GetVehicleModel"/>
 /// <returns>ID of the vehicle or <b><c>0</c></b> if not in a vehicle.</returns>
 NEW_NATIVE__ bool:Player_TryGetVehicle(Player:playerid, &Vehicle:targetid)
-	return (targetid = Vehicle:GetPlayerVehicleID(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
+	return (targetid = Vehicle:GetPlayerVehicleID__(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
 
 OLD_NATIVE__ GetPlayerVehicleID(playerid)
 	return Player_TryGetVehicle(Player:playerid, Vehicle:playerid) ? (_:playerid) : (_:INVALID_VEHICLE_ID);
@@ -1365,10 +1374,19 @@ NATIVE__ SetPlayerSpecialAction(playerid, actionid) \
 ///   <b><c>0</c></b>: The function failed to execute. The player specified does not exist.
 /// </returns>
 NEW_NATIVE__ bool:Player_ToggleVehicleCollision(Player:playerid, bool:solid)
-	return !!DisableRemoteVehicleCollisions(playerid, !solid);
+	return !!DisableRemoteVehicleCols__(playerid, !solid);
 
-OLD_NATIVE__ DisableRemoteVehicleCollisions(playerid, nonSolid)
-	return Player_ToggleVehicleCollision(Player:playerid, !nonSolid);
+#if defined OPENMP_COMPAT
+	#if !defined OPENMP_QUIET
+		#pragma deprecated Use `Object@ToggleClipping` instead.
+	#endif
+	#if defined OPENMP_SAMP
+		native DisableRemoteVehicleCollisions(playerid, nonSolid);
+	#else
+		stock DisableRemoteVehicleCollisions(playerid, nonSolid)
+			return Player_ToggleVehicleCollision(Player:playerid, !nonSolid);
+	#endif
+#endif
 
 NEW_NATIVE__ bool:Player_GetVehicleCollision(Player:playerid);
 
@@ -1385,7 +1403,7 @@ NEW_NATIVE__ bool:Player_GetVehicleCollision(Player:playerid);
 /// <remarks>A player's world boundaries can be reset by setting them to <b><c>20000.0</c></b>, <b><c>-20000.0</c></b>, <b><c>20000.0</c></b>, <b><c>-20000.0</c></b>. These are the default values.</remarks>
 /// <remarks>This function doesn't work in interiors!</remarks>
 NEW_NATIVE__ Player_SetWorldBounds(Player:playerid, Float:minX, Float:minY, Float:maxX, Float:maxY)
-	return SetPlayerWorldBounds(_:playerid, maxX, minX, maxY, minY);
+	return SetPlayerWorldBounds__(_:playerid, maxX, minX, maxY, minY);
 
 OLD_NATIVE__ SetPlayerWorldBounds(playerid, Float:maxX, Float:minX, Float:maxY, Float:minY)
 	return Player_SetWorldBounds(Player:playerid, minX, minY, maxX, maxY);
@@ -1561,7 +1579,7 @@ NATIVE__ EnablePlayerCameraTarget(playerid, enable) \
 /// <remarks>This function is disabled by default to save bandwidth. Use <a href="#EnablePlayerCameraTarget">EnablePlayerCameraTarget</a> to enable it for each player.</remarks>
 /// <returns>The ID of the object playerid is looking at. If <b><c>INVALID_OBJECT_ID (65535)</c></b> is returned, playerid isn't looking at any object.</returns>
 NEW_NATIVE__ bool:Player_TryGetFocusObject(Player:playerid, &Object:targetid)
-	return (targetid = Object:GetPlayerCameraTargetObject(_:playerid)) != (Object:INVALID_OBJECT_ID);
+	return (targetid = Object:GetPlayerCameraTargetObject__(_:playerid)) != (Object:INVALID_OBJECT_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetObject(playerid)
 	return Player_TryGetFocusObject(Player:playerid, Object:playerid) ? (_:playerid) : (_:INVALID_OBJECT_ID);
@@ -1580,7 +1598,7 @@ stock Object:Player_GetFocusObject(Player:playerid)
 /// <remarks>This function can (obviously) only return one vehicle ID at a time, while the player may be looking at multiple. It generally seems to detect the closest vehicle first.</remarks>
 /// <returns>The vehicle ID of the vehicle the player is looking at. <b><c>INVALID_VEHICLE_ID</c></b> if none.</returns>
 NEW_NATIVE__ bool:Player_TryGetFocusVehicle(Player:playerid, &Vehicle:targetid)
-	return (targetid = Vehicle:GetPlayerCameraTargetVehicle(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
+	return (targetid = Vehicle:GetPlayerCameraTargetVehicle__(_:playerid)) != (Vehicle:INVALID_VEHICLE_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetVehicle(playerid)
 	return Player_TryGetFocusVehicle(Player:playerid, Vehicle:playerid) ? (_:playerid) : (_:INVALID_VEHICLE_ID);
@@ -1599,7 +1617,7 @@ stock Vehicle:Player_GetFocusVehicle(Player:playerid)
 /// <remarks>Do not confuse this function with <a href="#GetPlayerTargetPlayer">GetPlayerTargetPlayer</a>. <a href="#GetPlayerTargetPlayer">GetPlayerTargetPlayer</a> returns the ID of the player playerid is aming at (with a weapon). <a href="#GetPlayerCameraTargetPlayer">GetPlayerCameraTargetPlayer</a> returns the ID of the player playerid is looking at (reference point is the <b>center of the screen</b>).</remarks>
 /// <returns>The ID of the player the playerid is looking at.</returns>
 NEW_NATIVE__ bool:Player_TryGetFocusPlayer(Player:playerid, &Player:targetid)
-	return (targetid = Player:GetPlayerCameraTargetPlayer(_:playerid)) != (Player:INVALID_PLAYER_ID);
+	return (targetid = Player:GetPlayerCameraTargetPlayer__(_:playerid)) != (Player:INVALID_PLAYER_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetPlayer(playerid)
 	return Player_TryGetFocusPlayer(Player:playerid, Player:playerid) ? (_:playerid) : (_:INVALID_PLAYER_ID);
@@ -1619,7 +1637,7 @@ stock Player:Player_GetFocusPlayer(Player:playerid)
 /// <remarks>This function only tells you which actor (if any) the player is <b>looking</b> at. To find out if they are <b>aiming</b> at them, you need to use <a href="#GetPlayerTargetActor">GetPlayerTargetActor</a>.</remarks>
 /// <returns>The ID of the actor the player is looking at.</returns>
 NEW_NATIVE__ bool:Player_TryGetFocusActor(Player:playerid, &Actor:targetid)
-	return (targetid = Actor:GetPlayerCameraTargetActor(_:playerid)) != (Actor:INVALID_ACTOR_ID);
+	return (targetid = Actor:GetPlayerCameraTargetActor__(_:playerid)) != (Actor:INVALID_ACTOR_ID);
 
 OLD_NATIVE__ GetPlayerCameraTargetActor(playerid)
 	return Player_TryGetFocusActor(Player:playerid, Actor:playerid) ? (_:playerid) : (_:INVALID_ACTOR_ID);
@@ -1650,7 +1668,7 @@ OLD_NATIVE__ Float:GetPlayerCameraAspectRatio(playerid)
 
 NEW_NATIVE__ ScreenMode:Player_GetScreenMode(Player:playerid)
 {
-	switch (_:GetPlayerCameraAspectRatio(_:playerid))
+	switch (_:GetPlayerCameraAspectRatio__(_:playerid))
 	{
 	case 0x3FAAAAAB: return SCREEN_MODE_NORMAL;
 	case 0x3F9F9FA0: return SCREEN_MODE_LETTERBOX;
@@ -1746,7 +1764,7 @@ OLD_NATIVE__ IsPlayerInAnyVehicle(playerid)
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.
 /// </returns>
 NEW_NATIVE__ bool:Player_SetVirtualWorld(Player:playerid, worldid, VWSetType:set = VW_UNIQUE)
-	return SetPlayerVirtualWorld(_:playerid, worldid);
+	return SetPlayerVirtualWorld__(_:playerid, worldid);
 
 OLD_NATIVE__ SetPlayerVirtualWorld(playerid, worldid)
 	return Player_SetVirtualWorld(Player:playerid, worldid, VW_UNIQUE);
@@ -1890,7 +1908,7 @@ NEW_NATIVE__ bool:Player_EditObject(Player:playerid, Object:objectid);
 /// <seealso name="OnPlayerSelectObject"/>
 /// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
 NEW_NATIVE__ bool:Player_SelectObject(Player:playerid)
-	return !!SelectObject(_:playerid);
+	return !!SelectObject__(_:playerid);
 
 /// <summary>Cancel object edition mode for a player.</summary>
 /// <param name="playerid">The ID of the player to cancel edition for</param>
@@ -1900,7 +1918,7 @@ NEW_NATIVE__ bool:Player_SelectObject(Player:playerid)
 /// <seealso name="EditAttachedObject"/>
 /// <remarks>This function was added in <b>SA-MP 0.3e</b> and will not work in earlier versions!</remarks>
 NEW_NATIVE__ bool:Player_CancelEdit(Player:playerid)
-	return !!CancelEdit(_:playerid);
+	return !!CancelEdit__(_:playerid);
 
 /// <summary>You can use this function to attach the player camera to objects.</summary>
 /// <param name="playerid">The ID of the player which will have your camera attached on object</param>

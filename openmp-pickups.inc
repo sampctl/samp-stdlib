@@ -39,10 +39,10 @@ enum PickupFlags
 }
 
 NEW_NATIVE__ Pickup:Pickup@Create(model, PickupFlags:flags, Float:posX, Float:posY, Float:posZ) = Pickup__Create
-	return Pickup:CreatePickup(model, _:flags >>> 24, posX, posY, posZ, 0);
+	return Pickup:CreatePickup__(model, _:flags >>> 24, posX, posY, posZ, 0);
 
 NEW_NATIVE__ bool:Pickup@Destroy(Pickup:pickupid) = Pickup__Destroy
-	return !!DestroyPickup(_:pickupid);
+	return !!DestroyPickup__(_:pickupid);
 
 NEW_NATIVE__ bool:Pickup@IsValid(Pickup:pickupid) = Pickup__IsValid;
 

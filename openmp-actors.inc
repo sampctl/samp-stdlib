@@ -162,10 +162,15 @@ NATIVE__ GetActorPos(actorid, &Float:X, &Float:Y, &Float:Z) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The actor specified does not exist.
 /// </returns>
-native bool:Actor_SetRotation_E(Actor:actorid, Float:x, Float:y, Float:z);
+NEW_NATIVE__ bool:Actor_SetRotation_E(Actor:actorid, Float:x, Float:y, Float:z);
 forward bool:Actor_SetRotation_Q(Actor:actorid, Float:w, Float:x, Float:y, Float:z);
-stock bool:Actor_SetRotation_Z(Actor:actorid, Float:z)
-	return Actor_SetRotation_E(actorid, 0.0, 0.0, z);
+#if defined OPENMP_SAMP
+	stock bool:Actor_SetRotation_Z(Actor:actorid, Float:z)
+		return SetActorFacingAngle__(_:actorid, z);
+#else
+	stock bool:Actor_SetRotation_Z(Actor:actorid, Float:z)
+		return Actor_SetRotation_E(actorid, 0.0, 0.0, z);
+#endif
 
 #define Actor_SetRotation(%0) Actor_SetRotation_Z(%0)
 #define Actor_SetRotation_Z(%0,%1,%2) Actor_SetRotation_E(%0,%1,%2)
@@ -188,8 +193,14 @@ OLD_NATIVE__ SetActorFacingAngle(actorid, Float:angle)
 /// </returns>
 NEW_NATIVE__ bool:Actor_GetRotation_E(Actor:actorid, &Float:x, &Float:y, &Float:z);
 forward bool:Actor_GetRotation_Q(Actor:actorid, &Float:w, &Float:x, &Float:y, &Float:z);
-stock Float:Actor_GetRotation_Z(Actor:actorid)
-	return Actor_GetRotation_E(actorid, __FLOAT, __FLOAT, __FLOAT) ? (__FLOAT): (FLOAT_NAN);
+
+#if defined OPENMP_SAMP
+	stock Float:Actor_GetRotation_Z(Actor:actorid)
+		return GetActorFacingAngle__(_:actorid, __FLOAT) ? (__FLOAT): (FLOAT_NAN);
+#else
+	stock Float:Actor_GetRotation_Z(Actor:actorid)
+		return Actor_GetRotation_E(actorid, __FLOAT, __FLOAT, __FLOAT) ? (__FLOAT): (FLOAT_NAN);
+#endif
 
 #define Actor_GetRotation(%0) Actor_GetRotation_Z(%0)
 #define Actor_GetRotation_Z(%0,%1) Actor_GetRotation_E(%0,%1)
@@ -197,8 +208,8 @@ stock Float:Actor_GetRotation_Z(Actor:actorid)
 #define _ALS_Actor_GetRotation
 
 #pragma deprecated Use `Actor_GetRotation` instead.
-FLOAT_NATIVE__ GetActorFacingAngle(actorid, &Float:angle)
-	Actor_GetRotation_E(Actor:actorid, angle, angle, angle);
+OLD_NATIVE__ GetActorFacingAngle(actorid, &Float:angle)
+	return Actor_GetRotation_E(Actor:actorid, angle, angle, angle);
 
 /// <summary>Set the health of an actor.</summary>
 /// <param name="actorid">The ID of the actor to set the health of</param>

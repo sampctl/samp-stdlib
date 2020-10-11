@@ -12,16 +12,16 @@
 #define string:
 #define void:
 
-#define FLOAT_INFINITY				  (Float:0x7F800000)
-#define FLOAT_NEG_INFINITY			  (Float:0xFF800000)
-#define FLOAT_NEGATIVE_INFINITY		 (Float:0xFF800000)
-#define FLOAT_NAN					   (Float:0x7FFFFFFF)
-#define FLOAT_NOT_A_NUMBER			  (Float:0x7FFFFFFF)
-#define FLOAT_QNAN					  (Float:0x7FFFFFFF)
-#define FLOAT_QUIET_NAN				 (Float:0x7FFFFFFF)
+#define FLOAT_INFINITY					(Float:0x7F800000)
+#define FLOAT_NEG_INFINITY				(Float:0xFF800000)
+#define FLOAT_NEGATIVE_INFINITY			(Float:0xFF800000)
+#define FLOAT_NAN						(Float:0x7FFFFFFF)
+#define FLOAT_NOT_A_NUMBER				(Float:0x7FFFFFFF)
+#define FLOAT_QNAN						(Float:0x7FFFFFFF)
+#define FLOAT_QUIET_NAN					(Float:0x7FFFFFFF)
 #define FLOAT_QUIET_NOT_A_NUMBER		(Float:0x7FFFFFFF)
-#define FLOAT_SNAN					  (Float:0x7FBFFFFF)
-#define FLOAT_SIGNALING_NAN			 (Float:0x7FBFFFFF)
+#define FLOAT_SNAN						(Float:0x7FBFFFFF)
+#define FLOAT_SIGNALING_NAN				(Float:0x7FBFFFFF)
 #define FLOAT_SIGNALING_NOT_A_NUMBER	(Float:0x7FBFFFFF)
 
 // Used to prevent macro expansion.
@@ -92,11 +92,11 @@
 
 #if defined OPENMP_SAMP
 	#if defined OPENMP_QUIET
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1)
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock%0@@(%1);native%0(%1)
 	#elseif defined OPENMP_COMPAT
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) native%0(%1)
 	#else
-		#define _OLD_NATIVE__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0
+		#define _OLD_NATIVE__%0(%1)%9=%2(%3) static stock%0@@(%1)
 	#endif
 	#define _NEW_NATIVE__%2(%3)%9=%0(%1) NATIVE__FIND_TAG%2(%3)=%0
 #else
@@ -114,7 +114,7 @@
 	#endif
 #endif
 
-#define NATIVE__%0; _NATIVE__D0();_NATIVE__D1();%0$native%0(%1);_OPENMP_TESTS(%0(%1))
+#define NATIVE__ _NATIVE__D0();_NATIVE__D1();
 
 #define _NATIVE__D0();_NATIVE__D1();%0(%1)%9=%2(%3) _OLD_NATIVE__%0(%1)=%2(%3);_NEW_NATIVE__ %2(%3)=%0(%1)
 #if !defined OPENMP_SAMP && defined OPENMP_TESTS
@@ -126,22 +126,22 @@
 #if defined OPENMP_SAMP
 	stock __FLOAT;
 	#if defined OPENMP_QUIET
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1)
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) static stock%0@@(%1);native%0(%1)
 	#elseif defined OPENMP_COMPAT
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) native%0(%1)
 	#else
-		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) NATIVE__FIND_TAG%0__(%1)=%0
+		#define _NATIVE_FLOAT_OLD__%0(%1)%9=%2(%3) static stock%0@@(%1)
 	#endif
 	#define _NATIVE_FLOAT_NEW__%2(%3)%9=%0(%1&Float:%7) stock%2(%3)return((%0(%1__FLOAT))?__FLOAT:FLOAT_NAN)
 
 	#define FLOAT_NATIVE__%0(%1)%9=%2(%3) _NATIVE_FLOAT_OLD__%0(%1)=%2(%3);_NATIVE_FLOAT_NEW__ %2(%3)=%0(%1)
 #else
 	#if defined OPENMP_QUIET
-		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) static stock%0@@(%1&Float:%7){}stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
+		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) static stock%0@@(%1&Float:%7);stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
 	#elseif defined OPENMP_COMPAT
 		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) stock%0(%1&Float:%7)return NotNaN(%7=(%2(%3)))
 	#else
-		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3); static stock%0@@(%1){}
+		#define _NATIVE_FLOAT_OLD__%0(%1&Float:%7)%9=%2(%3) static stock%0@@(%1)
 	#endif
 	#if defined OPENMP_TESTS
 		#define _NATIVE_FLOAT_NEW__%2(%3)%9=%0(%1); native%2(%3);_OPENMP_TESTS(%2(%3))
@@ -154,11 +154,11 @@
 
 #if defined OPENMP_SAMP
 	#if defined OPENMP_QUIET
-		#define OLD_NATIVE__%0(%1) NATIVE__FIND_TAG%0__(%1)=%0;native%0(%1);stock%0@@(%1)
+		#define OLD_NATIVE__%0(%1) static stock%0@@(%1);native%0(%1);static stock%0@@(%1)
 	#elseif defined OPENMP_COMPAT
-		#define OLD_NATIVE__%0(%1) native%0(%1);NATIVE__FIND_TAG%0__(%1)=%0;static stock%0@@(%1)
+		#define OLD_NATIVE__%0(%1) native%0(%1);static stock%0@@(%1)
 	#else
-		#define OLD_NATIVE__%0(%1) NATIVE__FIND_TAG%0__(%1)=%0;static stock%0@@(%1)
+		#define OLD_NATIVE__%0(%1) static stock%0@@(%1)
 	#endif
 	#define NEW_NATIVE__%2(%3) u@(u[_:_NATIVE__N1:_NATIVE__N3:0]);stock%2(%3)NATIVE__END$
 #else

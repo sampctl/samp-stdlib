@@ -205,7 +205,11 @@ NEW_NATIVE__ bool:Object_SetPosition(Object:objectid, Float:posX, Float:posY, Fl
 NEW_NATIVE__ bool:Object_GetRotation_E(Object:objectid, &Float:x, &Float:y, &Float:z);
 forward bool:Object_GetRotation_Q(Object:objectid, &Float:w, &Float:x, &Float:y, &Float:z);
 stock Float:Object_GetRotation_Z(Object:objectid)
+#if defined OPENMP_SAMP
+	;
+#else
 	return Object_GetRotation_E(objectid, __FLOAT, __FLOAT, __FLOAT) ? (__FLOAT): (FLOAT_NAN);
+#endif
 
 #define Object_GetRotation(%0) Object_GetRotation_Z(%0)
 #define Object_GetRotation_Z(%0,%1) Object_GetRotation_E(%0,%1)
@@ -225,7 +229,11 @@ stock Float:Object_GetRotation_Z(Object:objectid)
 native bool:Object_SetRotation_E(Object:objectid, Float:x, Float:y, Float:z);
 forward bool:Object_SetRotation_Q(Object:objectid, Float:w, Float:x, Float:y, Float:z);
 stock bool:Object_SetRotation_Z(Object:objectid, Float:z)
+#if defined OPENMP_SAMP
+	;
+#else
 	return Object_SetRotation_E(objectid, 0.0, 0.0, z);
+#endif
 
 #define Object_SetRotation(%0) Object_SetRotation_Z(%0)
 #define Object_SetRotation_Z(%0,%1,%2) Object_SetRotation_E(%0,%1,%2)
@@ -501,8 +509,19 @@ OLD_NATIVE__ SelectObject(playerid);
 #pragma deprecated Use `Player_CancelEdit` instead.
 OLD_NATIVE__ CancelEdit(playerid)
 
-#pragma deprecated Use `Object@ToggleClipping` instead.
-OLD_NATIVE__ SetDefaultObjectCameraCollision(disable);
+// Have to do this one the hard way, because the macro results in a function
+// name >31 characters.
+#if defined OPENMP_COMPAT
+	#if !defined OPENMP_QUIET
+		#pragma deprecated Use `Object@ToggleClipping` instead.
+	#endif
+	#if defined OPENMP_SAMP
+		native SetDefaultObjectCameraCollision(disable);
+	#else
+		stock SetDefaultObjectCameraCollision(disable)
+			return Object@ToggleClipping(!disable);
+	#endif
+#endif
 
 /// <summary>You can use this function to attach the player camera to objects.</summary>
 /// <param name="playerid">The ID of the player which will have your camera attached on object</param>
