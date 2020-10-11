@@ -131,14 +131,14 @@
 #define p@:A@[%8]%9.%0(%5)%3(%1|||%7) %8%5_NUM(,,%1)%0(%5)%3(|||%7)
 
 // Detect none.
-#define z@:%0[%9]%0(%5)%3(|||,%7) %9%5_NUL(%3)n@DROP[%5]%7
+#define z@:%0[%9]%0(%5)%3(|||,%7)%4$ %9%5_NUL(%3)n@DROP[%5]%7%4$
 
 // Detect out of parameters.
-#define n@[%9]%0(%5)%3(%6|||%7) %9%5_END(%3)n@DROP[%5]%7
+#define n@[%9]%0(%5)%3(%6|||%7)%4$ %9%5_END(%3)n@DROP[%5]%7%4$
 #define n@DROP[%5]
 
 // Not none, thus many parameters.  Used to recurse through multiple parameters.
-#define m@:n@[%9]%0(%5)%3(%6|||%7,%8) %0.m@:n@[%9]%0(%5)%3(%7|||%8)
+#define m@:n@[%9]%0(%5)%3(%6|||%7,%8)%4$ %0.m@:n@[%9]%0(%5)%3(%7|||%8)%4$
 
 // Detect possible return types.
 #define g@:%9~~%5(%9void:%3) %5_VOD(%3)
