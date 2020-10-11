@@ -57,6 +57,7 @@ OLD_NATIVE__ SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_Spawn` instead.
 NATIVE__ SpawnPlayer(playerid) \
     = bool:Player_Spawn(Player:playerid);
 
@@ -77,6 +78,7 @@ NATIVE__ SpawnPlayer(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_SetPosition` instead.
 NATIVE__ SetPlayerPos(playerid, Float:x, Float:y, Float:z) \
     = bool:Player_SetPosition(Player:playerid, Float:posX, Float:posY, Float:posZ);
 
@@ -92,6 +94,7 @@ NATIVE__ SetPlayerPos(playerid, Float:x, Float:y, Float:z) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_SetPositionFindZ` instead.
 NATIVE__ SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z) \
     = bool:Player_SetPositionFindZ(Player:playerid, Float:posX, Float:posY, Float:posZ);
 
@@ -106,6 +109,7 @@ NATIVE__ SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z) \
 /// <seealso name="GetPlayerDistanceFromPoint"/>
 /// <remarks>This function is known to return unreliable values when used in <a href="#OnPlayerDisconnect">OnPlayerDisconnect</a> and <a href="#OnPlayerRequestClass">OnPlayerRequestClass</a>. This is because the player is not spawned.</remarks>
 /// <returns><b><c>true</c></b> on success, <b><c>false</c></b> on failure (i.e. player not connected).</returns>
+#pragma deprecated Use `Player_GetPosition` instead.
 NATIVE__ GetPlayerPos(playerid, &Float:x, &Float:y, &Float:z) \
     = bool:Player_GetPosition(Player:playerid, &Float:posX, &Float:posY, &Float:posZ);
 
@@ -157,6 +161,7 @@ NEW_NATIVE__ bool:Player_GetRotation_Q(Player:objectid, &Float:w, &Float:x, &Flo
 /// <seealso name="GetPlayerPos"/>
 /// <remarks>This function was added in <b>SA-MP 0.3a</b> and will not work in earlier versions!</remarks>
 /// <returns><b><c>1</c></b> if the player is in range, <b><c>0</c></b> if not.</returns>
+#pragma deprecated Use `Player_IsInRangeOfPoint` instead.
 NATIVE__ IsPlayerInRangeOfPoint(playerid, Float:range, Float:x, Float:y, Float:z) \
     = bool:Player_IsInRangeOfPoint(Player:playerid, Float:range, Float:posX, Float:posY, Float:posZ);
 
@@ -170,6 +175,7 @@ NATIVE__ IsPlayerInRangeOfPoint(playerid, Float:range, Float:x, Float:y, Float:z
 /// <seealso name="GetPlayerPos"/>
 /// <remarks>This function was added in <b>SA-MP 0.3c R3</b> and will not work in earlier versions!</remarks>
 /// <returns>The distance between the player and the point as a float.</returns>
+#pragma deprecated Use `Player_GetDistanceFromPoint` instead.
 NATIVE__ Float:GetPlayerDistanceFromPoint(playerid, Float:X, Float:Y, Float:Z) \
     = Float:Player_GetDistanceFromPoint(Player:playerid, Float:posX, Float:posY, Float:posZ);
 
@@ -186,6 +192,7 @@ NATIVE__ Float:GetPlayerDistanceFromPoint(playerid, Float:X, Float:Y, Float:Z) \
 /// <remarks>Players aren't streamed in on their own client, so if playerid is the same as forPlayerid it will return false!</remarks>
 /// <remarks>Players stream out if they are more than <b><c>150</c></b> meters away (see <c>server.cfg</c> - <c>stream_distance</c>)</remarks>
 /// <returns><b><c>1</c></b> if the player is streamed in, <b><c>0</c></b> if not.</returns>
+#pragma deprecated Use `Player_IsStreamedIn` instead.
 NATIVE__ IsPlayerStreamedIn(playerid, forPlayerid) \
     = bool:Player_IsStreamedIn(Player:playerid, Player:forPlayerid);
 
@@ -199,6 +206,7 @@ NATIVE__ IsPlayerStreamedIn(playerid, forPlayerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_SetInterior` instead.
 NATIVE__ SetPlayerInterior(playerid, interiorid) \
     = bool:Player_SetInterior(Player:playerid, interiorid);
 
@@ -208,6 +216,7 @@ NATIVE__ SetPlayerInterior(playerid, interiorid) \
 /// <seealso name="GetPlayerVirtualWorld"/>
 /// <remarks>Always returns <b><c>0</c></b> for NPCs.</remarks>
 /// <returns>The interior ID the player is currently in.</returns>
+#pragma deprecated Use `Player_GetInterior` instead.
 NATIVE__ GetPlayerInterior(playerid) \
     = Player_GetInterior(Player:playerid);
 
@@ -224,6 +233,7 @@ NATIVE__ GetPlayerInterior(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_SetHealth` instead.
 NATIVE__ SetPlayerHealth(playerid, Float:health) \
     = bool:Player_SetHealth(Player:playerid, Float:health);
 
@@ -256,6 +266,7 @@ FLOAT_NATIVE__ GetPlayerHealth(playerid, &Float:health) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_SetArmor` instead.
 NATIVE__ SetPlayerArmour(playerid, Float:armour) \
     = bool:Player_SetArmor(Player:playerid, Float:armor);
 
@@ -287,6 +298,7 @@ FLOAT_NATIVE__ GetPlayerArmour(playerid, &Float:armour) \
 ///   <b><c>1</c></b>: The function executed successfully. Success is also returned when the weapon slot specified is invalid (not 0-12).<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The player isn't connected.<p/>
 /// </returns>
+#pragma deprecated Use `Player_SetAmmo` instead.
 NATIVE__ SetPlayerAmmo(playerid, weaponslot, ammo) \
     = bool:Player_SetAmmo(Player:playerid, weaponSlot, ammo);
 
@@ -296,6 +308,7 @@ NATIVE__ SetPlayerAmmo(playerid, weaponslot, ammo) \
 /// <seealso name="GetPlayerWeaponData"/>
 /// <remarks>The ammo can hold 16-bit values, therefore values over <b><c>32767</c></b> will return erroneous values.</remarks>
 /// <returns>The amount of ammo in the player's current weapon.</returns>
+#pragma deprecated Use `Player_GetAmmo` instead.
 NATIVE__ GetPlayerAmmo(playerid) \
     = Player_GetAmmo(Player:playerid);
 
@@ -332,6 +345,7 @@ NEW_NATIVE__ Player_GetArmedWeaponAmmo(Player:playerid);
 ///   </ul>
 /// </remarks>
 /// <returns>The state of the player's weapon. <b><c>0</c></b> if player specified does not exist.</returns>
+#pragma deprecated Use `Player_GetArmedWeaponState` instead.
 NATIVE__ GetPlayerWeaponState(playerid) \
     = WeaponState:Player_GetArmedWeaponState(Player:playerid);
 
@@ -378,6 +392,7 @@ stock Actor:Player_GetTargetedActor(Player:playerid)
 /// <seealso name="EnableVehicleFriendlyFire"/>
 /// <remarks>Players can not damage/kill players on the same team unless they use a knife to slit their throat. As of <b>SA-MP 0.3x</b>, players are also unable to damage vehicles driven by a player from the same team. This can be enabled with <a href="#EnableVehicleFriendlyFire">EnableVehicleFriendlyFire</a>.</remarks>
 /// <remarks><b><c>255</c></b> (or <b><c>NO_TEAM</c></b>) is the default team to be able to shoot other players, not <b><c>0</c></b>.</remarks>
+#pragma deprecated Use `Player_SetTeam` instead.
 NATIVE__ SetPlayerTeam(playerid, teamid) \
     = bool:Player_SetTeam(Player:playerid, teamid);
 
@@ -390,6 +405,7 @@ NATIVE__ SetPlayerTeam(playerid, teamid) \
 ///   <b><c>255</c></b>: Defined as <b><c>NO_TEAM</c></b>. The player is not on any team.<p/>
 ///   <b><c>-1</c></b>: The function failed to execute. Player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_GetTeam` instead.
 NATIVE__ GetPlayerTeam(playerid) \
     = Player_GetTeam(Player:playerid);
 
@@ -401,6 +417,7 @@ NATIVE__ GetPlayerTeam(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_SetScore` instead.
 NATIVE__ SetPlayerScore(playerid, score) \
     = bool:Player_SetScore(Player:playerid, score);
 
@@ -409,6 +426,7 @@ NATIVE__ SetPlayerScore(playerid, score) \
 /// <seealso name="SetPlayerScore"/>
 /// <seealso name="GetPlayerPing"/>
 /// <returns>The player's score.</returns>
+#pragma deprecated Use `Player_GetScore` instead.
 NATIVE__ GetPlayerScore(playerid) \
     = Player_GetScore(Player:playerid);
 
@@ -427,6 +445,7 @@ NATIVE__ GetPlayerScore(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_SetDrunkLevel` instead.
 NATIVE__ SetPlayerDrunkLevel(playerid, level) \
     = bool:Player_SetDrunkLevel(Player:playerid, level);
 
@@ -438,6 +457,7 @@ NATIVE__ SetPlayerDrunkLevel(playerid, level) \
 /// <seealso name="SetPlayerDrunkLevel"/>
 /// <remarks>This function was added in <b>SA-MP 0.3a</b> and will not work in earlier versions!</remarks>
 /// <returns>An integer with the level of drunkenness of the player.</returns>
+#pragma deprecated Use `Player_GetDrunkLevel` instead.
 NATIVE__ GetPlayerDrunkLevel(playerid) \
     = Player_GetDrunkLevel(Player:playerid);
 
@@ -449,6 +469,7 @@ NATIVE__ GetPlayerDrunkLevel(playerid) \
 /// <seealso name="ChangeVehicleColor"/>
 /// <remarks>This function will change player's color for everyone, even if player's color was changed with <a href="#SetPlayerMarkerForPlayer">SetPlayerMarkerForPlayer</a> for any other player. </remarks>
 /// <remarks>If used under <a href="#OnPlayerConnect">OnPlayerConnect</a>, the affecting player will not see the color in the TAB menu. </remarks>
+#pragma deprecated Use `Player_SetColour` instead.
 NATIVE__ SetPlayerColor(playerid, color) \
     = bool:Player_SetColour(Player:playerid, colour);
 
@@ -460,6 +481,7 @@ NATIVE__ SetPlayerColor(playerid, color) \
 /// <seealso name="LimitPlayerMarkerRadius"/>
 /// <seealso name="SetPlayerColor"/>
 /// <seealso name="ShowPlayerNameTagForPlayer"/>
+#pragma deprecated Use `Player_SetColourForPlayer` instead.
 NATIVE__ SetPlayerMarkerForPlayer(playerid, showplayerid, color) \
     = bool:Player_SetColourForPlayer(Player:playerid, Player:forplayerid, color);
 
@@ -469,6 +491,7 @@ NATIVE__ SetPlayerMarkerForPlayer(playerid, showplayerid, color) \
 /// <seealso name="ChangeVehicleColor"/>
 /// <remarks>GetPlayerColor will return <b><c>0</c></b> unless <a href="#SetPlayerColor">SetPlayerColor</a> has been used first.</remarks>
 /// <returns>The player's color. <b><c>0</c></b> if no color set or player not connected.</returns>
+#pragma deprecated Use `Player_GetColour` instead.
 NATIVE__ GetPlayerColor(playerid) \
     = Player_GetColour(Player:playerid);
 
@@ -484,6 +507,7 @@ NATIVE__ GetPlayerColor(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.<p/>
 /// </returns>
+#pragma deprecated Use `Player_SetSkin` instead.
 NATIVE__ SetPlayerSkin(playerid, skinid) \
     = bool:Player_SetSkin(Player:playerid, skinid);
 
@@ -493,9 +517,11 @@ NATIVE__ SetPlayerSkin(playerid, skinid) \
 /// <remarks>Returns the new skin after <a href="#SetSpawnInfo">SetSpawnInfo</a> is called but before the player actually respawns to get the new skin. </remarks>
 /// <remarks>Returns the old skin if the player was spawned through <a href="#SpawnPlayer">SpawnPlayer</a> function. </remarks>
 /// <returns>The skin id (<b><c>0</c></b> if invalid).</returns>
+#pragma deprecated Use `Player_GetSkin` instead.
 NATIVE__ GetPlayerSkin(playerid) \
     = Player_GetSkin(Player:playerid);
 
+#pragma deprecated Use `Player_GetCustomSkin` instead.
 NATIVE__ GetPlayerCustomSkin(playerid) \
     = Player_GetCustomSkin(Player:playerid);
 
@@ -512,6 +538,7 @@ NATIVE__ GetPlayerCustomSkin(playerid) \
 ///   <b><c>0</c></b> The player already has that name.<p/>
 ///   <b><c>-1</c></b> The name can not be changed (it's already in use, too long or has invalid characters).
 /// </returns>
+#pragma deprecated Use `Player_SetName` instead.
 NATIVE__ SetPlayerName(playerid, const name[]) \
     = bool:Player_SetName(Player:playerid, const name[]);
 
@@ -526,6 +553,7 @@ NATIVE__ SetPlayerName(playerid, const name[]) \
 /// <seealso name="GetPlayerVersion"/>
 /// <remarks>A player's name can be up to 24 characters long (as of <b>0.3d R2</b>) by using <a href="#SetPlayerName">SetPlayerName</a>. This is defined in <c>a_samp.inc</c> as <b><c>MAX_PLAYER_NAME</c></b>. However, the client can only join with a nickname between 3 and 20 characters, otherwise the connection will be rejected and the player has to quit to choose a valid name.</remarks>
 /// <returns>The length of the player's name. <b><c>0</c></b> if player specified doesn't exist.</returns>
+#pragma deprecated Use `Player_GetName` instead.
 NATIVE__ GetPlayerName(playerid, name[], len = sizeof name) \
     = bool:Player_GetName(Player:playerid, name[], size = sizeof(name));
 
@@ -539,6 +567,7 @@ NATIVE__ GetPlayerName(playerid, name[], len = sizeof name) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.<p/>
 /// </returns>
+#pragma deprecated Use `Player_GiveWeapon` instead.
 NATIVE__ GivePlayerWeapon(playerid, weaponid, ammo) \
     = bool:Player_GiveWeapon(Player:playerid, weaponid, ammo);
 
@@ -551,6 +580,7 @@ NATIVE__ GivePlayerWeapon(playerid, weaponid, ammo) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player specified does not exist.
 /// </returns>
+#pragma deprecated Use `Player_ResetWeapons` instead.
 NATIVE__ ResetPlayerWeapons(playerid) \
     = bool:Player_ResetWeapons(Player:playerid);
 
@@ -565,6 +595,7 @@ NATIVE__ ResetPlayerWeapons(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully. Success is returned even when the function fails to execute (the player doesn't have the weapon specified, or it is an invalid weapon).<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_SetArmedWeapon` instead.
 NATIVE__ SetPlayerArmedWeapon(playerid, weaponid) \
     = bool:Player_SetArmedWeapon(Player:playerid, weaponid);
 
@@ -580,6 +611,7 @@ NATIVE__ SetPlayerArmedWeapon(playerid, weaponid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. The player isn't connected and/or the weapon slot specified is invalid (valid is <b><c>0-12</c></b>).
 /// </returns>
+#pragma deprecated Use `Player_GetWeaponData` instead.
 NATIVE__ GetPlayerWeaponData(playerid, slot, &weapons, &ammo) \
     = bool:Player_GetWeaponData(Player:playerid, weaponSlot, &weaponid, &ammo);
 
@@ -823,6 +855,7 @@ NATIVE__ GetPlayerFightingStyle(playerid) \
 ///   <b><c>1</c></b>: The function executed successfully.<p/>
 ///   <b><c>0</c></b>: The function failed to execute. This means the player is not connected.
 /// </returns>
+#pragma deprecated Use `Player_SetVelocity` instead.
 NATIVE__ SetPlayerVelocity(playerid, Float:X, Float:Y, Float:Z) \
     = bool:Player_SetVelocity(Player:playerid, Float:velocityX, Float:velocityY, Float:velocityZ);
 
@@ -835,6 +868,7 @@ NATIVE__ SetPlayerVelocity(playerid, Float:X, Float:Y, Float:Z) \
 /// <seealso name="SetVehicleVelocity"/>
 /// <seealso name="GetVehicleVelocity"/>
 /// <remarks>This function was added in <b>SA-MP 0.3a</b> and will not work in earlier versions!</remarks>
+#pragma deprecated Use `Player_GetVelocity` instead.
 NATIVE__ GetPlayerVelocity(playerid, &Float:X, &Float:Y, &Float:Z) \
     = bool:Player_GetVelocity(Player:playerid, &Float:velocityX, &Float:velocityY, &Float:velocityZ);
 
@@ -1775,6 +1809,7 @@ OLD_NATIVE__ SetPlayerVirtualWorld(playerid, worldid)
 /// <seealso name="GetVehicleVirtualWorld"/>
 /// <seealso name="GetPlayerInterior"/>
 /// <returns>The ID of the virtual world the player is currently in.</returns>
+#pragma deprecated Use `Player_GetVirtualWorld` instead.
 NATIVE__ GetPlayerVirtualWorld(playerid) \
     = Player_GetVirtualWorld(Player:playerid);
 
